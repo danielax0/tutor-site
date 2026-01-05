@@ -48,7 +48,7 @@ const Index = () => {
                 <br /><br />
                 My teaching philosophy centers on building strong foundations while making learning enjoyable and engaging. I help students at any level, whether you want to improve grades, need help with homework, or want to fully grasp concepts, I'm here to guide you every step of the way.
                 <br /><br />
-                I am currently studying finance at a top university in Canada and have worked with students many students, from elementary school to university level. My goal is to not only help you succeed academically but also to instill a lifelong love of learning. 
+                I am currently studying finance at a top university in Canada and have worked with many students, from elementary school to university level. My goal is to not only help you succeed academically but also to instill a lifelong love of learning. 
                 <br /><br />
                 Growning up I have had many tutors of my own, so I have a deep understanding of what it means to be a student. I use my direct knowledge of teaching to make sure my students understand concepts, and therefore are able to achieve their potential.
                 <br /><br />
