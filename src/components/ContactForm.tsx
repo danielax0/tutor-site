@@ -5,8 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 
+const FORM_ENDPOINT = "https://formspree.io/f/xlgdnglr";
+
 const ContactForm = () => {
   const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -15,13 +19,54 @@ const ContactForm = () => {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Message sent!",
-      description: "Thank you for reaching out. I'll get back to you soon.",
-    });
-    setFormData({ name: "", email: "", phone: "", instructions: "", message: "" });
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+
+    try {
+      const res = await fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          _subject: "New Website Inquiry",
+        }),
+      });
+
+      if (res.ok) {
+        toast({
+          title: "Message sent!",
+          description: "Thank you for reaching out. I'll get back to you soon.",
+        });
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          instructions: "",
+          message: "",
+        });
+      } else {
+        // Formspree returns JSON with details sometimes, but we don’t need to parse it
+        toast({
+          title: "Something went wrong",
+          description: "Please try again in a moment or email me directly.",
+          variant: "destructive",
+        });
+      }
+    } catch (err) {
+      toast({
+        title: "Network error",
+        description: "Check your connection and try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -82,7 +127,10 @@ const ContactForm = () => {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="instructions" className="text-sm font-medium text-foreground">
+        <Label
+          htmlFor="instructions"
+          className="text-sm font-medium text-foreground"
+        >
           Instructions
         </Label>
         <Textarea
@@ -114,10 +162,15 @@ const ContactForm = () => {
 
       <Button
         type="submit"
-        className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-medium py-6 text-base transition-all duration-200 hover:shadow-elevated"
+        disabled={isSubmitting}
+        className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-medium py-6 text-base transition-all duration-200 hover:shadow-elevated disabled:opacity-60"
       >
-        Send Message
+        {isSubmitting ? "Sending..." : "Send Message"}
       </Button>
+
+      <p className="text-sm text-muted-foreground">
+        First lesson is free.
+      </p>
     </form>
   );
 };
