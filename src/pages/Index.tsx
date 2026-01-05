@@ -34,6 +34,24 @@ const Index = () => {
         </div>
       </header>
 
+      {/* Video Introduction Section */}
+      <section className="container max-w-4xl mx-auto px-6 py-12 animate-fade-in" style={{ animationDelay: "0.25s" }}>
+        <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-6 text-center">
+          Meet Your Tutor
+        </h2>
+        <div className="bg-card rounded-xl overflow-hidden shadow-card border border-border">
+          {/* Replace the src with your MP4 video URL */}
+          <video 
+            className="w-full aspect-video"
+            controls
+            poster=""
+          >
+            <source src="/intro-video.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </section>
+
       {/* Main Content */}
       <main className="container max-w-6xl mx-auto px-6 py-16">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
@@ -70,9 +88,31 @@ const Index = () => {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border py-8 px-6">
-        <div className="container max-w-6xl mx-auto text-center text-muted-foreground">
-          <p className="text-sm">
+      <footer className="border-t border-border py-12 px-6 bg-muted/30">
+        <div className="container max-w-6xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-12 mb-8">
+            <a 
+              href="mailto:your-email@example.com" 
+              className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+            >
+              <span className="font-medium">your-email@example.com</span>
+            </a>
+            <a 
+              href="tel:+1234567890" 
+              className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+            >
+              <span className="font-medium">+1 (234) 567-890</span>
+            </a>
+            <a 
+              href="https://g.page/your-business" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+            >
+              <span className="font-medium">Google Business Profile</span>
+            </a>
+          </div>
+          <p className="text-sm text-center text-muted-foreground">
             © {new Date().getFullYear()} Daniel Axentii. All rights reserved.
           </p>
         </div>
