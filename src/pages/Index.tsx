@@ -92,19 +92,19 @@ const Index = () => {
         <div className="container max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-12 mb-8">
             <a 
-              href="mailto:your-email@example.com" 
+              href="mailto:daxentii57@gmail.com" 
               className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
             >
-              <span className="font-medium">your-email@example.com</span>
+              <span className="font-medium">daxentii57@gmail.com</span>
             </a>
             <a 
-              href="tel:+1234567890" 
+              href="tel:+14372288921" 
               className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
             >
-              <span className="font-medium">+1 (234) 567-890</span>
+              <span className="font-medium">+1 (437) 228-8921</span>
             </a>
             <a 
-              href="https://g.page/your-business" 
+              href="https://share.google/lmPB4WW9TO7KWJUX2" 
               target="_blank" 
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
