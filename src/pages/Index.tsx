@@ -85,6 +85,32 @@ const Index = () => {
             </div>
           </section>
         </div>
+
+        {/* Calendly Booking Section */}
+        <section className="lg:col-span-2 mt-8 animate-fade-in" style={{ animationDelay: "0.5s" }}>
+          <div className="bg-gradient-to-r from-primary to-primary/80 rounded-xl p-8 md:p-10 text-center shadow-elevated">
+            <h3 className="font-heading text-2xl md:text-3xl font-bold text-primary-foreground mb-3">
+              Ready to Get Started?
+            </h3>
+            <p className="text-primary-foreground/90 mb-6 max-w-xl mx-auto">
+              Book a free introductory call to discuss your learning goals and see if we're a good fit.
+            </p>
+            <a
+              href="https://calendly.com/danielaxentii/phone-call"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-secondary text-secondary-foreground px-8 py-4 rounded-lg font-semibold text-lg hover:bg-secondary/90 transition-all duration-200 hover:shadow-lg hover:scale-105"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+                <line x1="16" x2="16" y1="2" y2="6"/>
+                <line x1="8" x2="8" y1="2" y2="6"/>
+                <line x1="3" x2="21" y1="10" y2="10"/>
+              </svg>
+              Schedule a Free Call
+            </a>
+          </div>
+        </section>
       </main>
 
       {/* Footer */}
