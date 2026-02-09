@@ -20,6 +20,19 @@ const Index = () => {
           <p className="text-xl md:text-2xl font-light opacity-90 mb-8 animate-fade-in" style={{ animationDelay: "0.1s" }}>
             Personal Tutor
           </p>
+          <div
+            className="flex justify-center mb-10 animate-fade-in"
+            style={{ animationDelay: "0.15s" }}
+          >
+            <video
+              controls
+              preload="metadata"
+              className="w-full max-w-3xl rounded-xl shadow-lg"
+            >
+              <source src="/tutorvidfeb9.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
           <div className="flex flex-wrap justify-center gap-3 animate-fade-in" style={{ animationDelay: "0.2s" }}>
             {subjects.map((subject) => (
               <div
