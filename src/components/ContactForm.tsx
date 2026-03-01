@@ -91,7 +91,7 @@ const ContactForm = () => {
           onChange={handleChange}
           placeholder="John Doe"
           required
-          className="bg-background border-border focus:border-secondary focus:ring-secondary/20"
+          className="bg-background border-border/60 focus:border-secondary focus:ring-secondary/20 transition-all duration-300 hover:border-border px-4 py-6"
         />
       </div>
 
@@ -107,7 +107,7 @@ const ContactForm = () => {
           onChange={handleChange}
           placeholder="john@example.com"
           required
-          className="bg-background border-border focus:border-secondary focus:ring-secondary/20"
+          className="bg-background border-border/60 focus:border-secondary focus:ring-secondary/20 transition-all duration-300 hover:border-border px-4 py-6"
         />
       </div>
 
@@ -122,7 +122,7 @@ const ContactForm = () => {
           value={formData.phone}
           onChange={handleChange}
           placeholder="+1 (555) 123-4567"
-          className="bg-background border-border focus:border-secondary focus:ring-secondary/20"
+          className="bg-background border-border/60 focus:border-secondary focus:ring-secondary/20 transition-all duration-300 hover:border-border px-4 py-6"
         />
       </div>
 
@@ -140,7 +140,7 @@ const ContactForm = () => {
           onChange={handleChange}
           placeholder="Any specific requirements or preferences..."
           rows={3}
-          className="bg-background border-border focus:border-secondary focus:ring-secondary/20 resize-none"
+          className="bg-background border-border/60 focus:border-secondary focus:ring-secondary/20 transition-all duration-300 hover:border-border resize-none p-4"
         />
       </div>
 
@@ -156,14 +156,14 @@ const ContactForm = () => {
           placeholder="Tell me about your learning goals..."
           required
           rows={6}
-          className="bg-background border-border focus:border-secondary focus:ring-secondary/20 resize-none"
+          className="bg-background border-border/60 focus:border-secondary focus:ring-secondary/20 transition-all duration-300 hover:border-border resize-none p-4"
         />
       </div>
 
       <Button
         type="submit"
         disabled={isSubmitting}
-        className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-medium py-6 text-base transition-all duration-200 hover:shadow-elevated disabled:opacity-60"
+        className="w-full bg-primary text-primary-foreground hover:bg-primary/95 font-medium py-7 text-lg transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-none rounded-xl"
       >
         {isSubmitting ? "Sending..." : "Send Message"}
       </Button>
