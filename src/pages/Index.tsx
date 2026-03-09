@@ -61,7 +61,17 @@ const Index = () => {
 
       {/* Mobile-only quick intro */}
       <section className="container max-w-4xl mx-auto px-6 pt-2 pb-10 md:hidden">
-        <a href="#contactform" className="block">
+        <a
+          href="#contactform"
+          className="block"
+          onClick={(e) => {
+            e.preventDefault();
+            const el = document.getElementById("contactform");
+            if (el) {
+              el.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          }}
+        >
           <div className="bg-card rounded-2xl p-5 shadow-card border border-border/50 flex items-center gap-4 active:scale-[0.98] transition-transform">
           <div className="shrink-0">
             <div className="relative w-16 h-16">
