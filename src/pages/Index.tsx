@@ -61,7 +61,8 @@ const Index = () => {
 
       {/* Mobile-only quick intro */}
       <section className="container max-w-4xl mx-auto px-6 pt-2 pb-10 md:hidden">
-        <div className="bg-card rounded-2xl p-5 shadow-card border border-border/50 flex items-center gap-4">
+        <a href="#contactform" className="block">
+          <div className="bg-card rounded-2xl p-5 shadow-card border border-border/50 flex items-center gap-4 active:scale-[0.98] transition-transform">
           <div className="shrink-0">
             <div className="relative w-16 h-16">
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/90 to-secondary shadow-lg" />
@@ -100,15 +101,16 @@ const Index = () => {
               </svg>
             </div>
           </div>
-          <div>
-            <h2 className="font-heading text-2xl font-bold text-foreground mb-1">
-              Learning on the go?
-            </h2>
-            <p className="text-muted-foreground text-sm">
-              Get quick, friendly help with Math, French, and English right from your phone.
-            </p>
+            <div>
+              <h2 className="font-heading text-2xl font-bold text-foreground mb-1">
+                Learning on the go?
+              </h2>
+              <p className="text-muted-foreground text-sm">
+                Tap here to jump straight to the contact section and book your free call.
+              </p>
+            </div>
           </div>
-        </div>
+        </a>
       </section>
 
       {/* Main Content */}
@@ -174,7 +176,7 @@ const Index = () => {
         </div>
 
         {/* Calendly Booking Section */}
-        <section className="lg:col-span-2 mt-16 animate-fade-in" style={{ animationDelay: "0.5s" }}>
+        <section id={"contactform"} className="lg:col-span-2 mt-16 animate-fade-in" style={{ animationDelay: "0.5s" }}>
           <div className="relative bg-gradient-to-r from-primary to-primary/80 rounded-2xl p-10 md:p-14 text-center shadow-elevated overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.08),transparent_40%)] pointer-events-none" />
             <h3 className="font-heading text-3xl md:text-4xl font-bold text-primary-foreground mb-4 relative z-10">
