@@ -11,17 +11,27 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Sticky Navbar */}
-      <nav className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b border-border shadow-sm animate-fade-in">
-        <div className="container max-w-6xl mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex flex-col items-center md:items-start text-center md:text-left">
-            <h1 className="font-heading text-2xl md:text-3xl font-bold text-foreground tracking-tight">
-              Daniel Axentii
-            </h1>
-            <p className="text-sm font-medium text-muted-foreground">
-              Personal Tutor
-            </p>
-          </div>
+        <nav className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b border-border shadow-sm animate-fade-in">
+            <div className="container max-w-6xl mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+
+                {/* Logo + Title */}
+                <div className="flex items-center gap-3">
+                    {/* Replace src with your logo image URL */}
+                    <img
+                        src="/logo-favicon.png"
+                        alt="Logo"
+                        className="w-10 h-10 rounded-full object-cover"
+                    />
+                    <div className="flex flex-col text-center md:text-left">
+                        <h1 className="font-heading text-2xl md:text-3xl font-bold text-foreground tracking-tight">
+                            Daniel Axentii
+                        </h1>
+                        <p className="text-sm font-medium text-muted-foreground">
+                            Personal Tutor
+                        </p>
+                    </div>
+                </div>
+
 
           <div className="flex flex-wrap justify-center gap-2 md:gap-3">
             {subjects.map((subject) => (
