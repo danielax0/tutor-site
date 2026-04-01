@@ -37,28 +37,26 @@ const Index = () => {
         </div>
       </nav>
 
-      {/* Video Introduction Section */}
-      <section className="container max-w-4xl mx-auto px-6 py-10 md:py-16 animate-fade-in" style={{ animationDelay: "0.25s" }}>
-        <h2 className="font-heading text-3xl md:text-5xl font-bold text-foreground mb-6 text-center tracking-tight">
-          Meet Your Tutor
-        </h2>
-        <div className="relative group mx-auto">
-          <div className="absolute -inset-1 bg-gradient-to-r from-primary to-secondary rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-1000 group-hover:duration-200" />
-          <div className="relative bg-card rounded-xl overflow-hidden shadow-elevated border border-border/50">
-            {/* Replace the src with your MP4 video URL */}
-            <video
-              className="w-full aspect-video object-cover"
-              controls
-              poster=""
-            >
-              <source src="https://www.youtube.com/watch?v=z382sKIJ4UY" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-
-
-        </div>
-      </section>
+        {/* Video Introduction Section */}
+        <section className="container max-w-4xl mx-auto px-6 py-10 md:py-16 animate-fade-in" style={{ animationDelay: "0.25s" }}>
+            <h2 className="font-heading text-3xl md:text-5xl font-bold text-foreground mb-6 text-center tracking-tight">
+                Meet Your Tutor
+            </h2>
+            <div className="relative group mx-auto">
+                <div className="absolute -inset-1 bg-gradient-to-r from-primary to-secondary rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-1000 group-hover:duration-200" />
+                <div className="relative bg-card rounded-xl overflow-hidden shadow-elevated border border-border/50">
+                    {/* Embed YouTube video with iframe */}
+                    <iframe
+                        className="w-full aspect-video"
+                        src="https://www.youtube.com/embed/z382sKIJ4UY"
+                        title="YouTube video player"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                    ></iframe>
+                </div>
+            </div>
+        </section>
 
       {/* Main Content */}
       <main className="container max-w-6xl mx-auto px-6 py-16">
