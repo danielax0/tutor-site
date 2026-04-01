@@ -51,7 +51,7 @@ const Index = () => {
               controls
               poster=""
             >
-              <source src="/intro.mp4" type="video/mp4" />
+              <source src="https://www.youtube.com/watch?v=z382sKIJ4UY" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>
