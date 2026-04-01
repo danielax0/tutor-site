@@ -1,6 +1,7 @@
 import ContactForm from "@/components/ContactForm";
 import SubjectBadge from "@/components/SubjectBadge";
 import { BookOpen, GraduationCap, Languages } from "lucide-react";
+import StudyBuddyMascot from "@/components/StudyBuddyMascot";
 
 const Index = () => {
   const subjects = [
@@ -56,6 +57,70 @@ const Index = () => {
             </video>
           </div>
         </div>
+      </section>
+
+      {/* Mobile-only quick intro */}
+      <section className="container max-w-4xl mx-auto px-6 pt-2 pb-10 md:hidden">
+        <a
+          href="#contactform"
+          className="block"
+          onClick={(e) => {
+            e.preventDefault();
+            const el = document.getElementById("contactform");
+            if (el) {
+              el.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          }}
+        >
+          <div className="bg-card rounded-2xl p-5 shadow-card border border-border/50 flex items-center gap-4 active:scale-[0.98] transition-transform">
+          <div className="shrink-0">
+            <div className="relative w-16 h-16">
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/90 to-secondary shadow-lg" />
+              <svg
+                viewBox="0 0 80 80"
+                className="relative z-10 w-16 h-16 text-primary-foreground"
+                aria-hidden="true"
+              >
+                  <rect x="12" y="10" width="48" height="60" rx="12" fill="white" />
+                  <rect x="16" y="16" width="40" height="6" rx="3" fill="#e5e7eb" />
+                  <circle cx="30" cy="34" r="5" fill="#0f172a" />
+                  <circle cx="46" cy="34" r="5" fill="#0f172a" />
+                  <circle cx="28" cy="32" r="2" fill="#facc15" />
+                  <circle cx="44" cy="32" r="2" fill="#facc15" />
+                  <path
+                      d="M26 48c4 4 10 4 14 0"
+                      stroke="#0f172a"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      fill="none"
+                  />
+                  <path
+                      d="M10 50c6 4 10 10 12 18"
+                      stroke="#0f172a"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      fill="none"
+                  />
+                  <path
+                      d="M58 50c-4 6-6 12-6 18"
+                      stroke="#0f172a"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      fill="none"
+                  />
+              </svg>
+            </div>
+          </div>
+            <div>
+              <h2 className="font-heading text-2xl font-bold text-foreground mb-1">
+                Learning on the go?
+              </h2>
+              <p className="text-muted-foreground text-sm">
+                Tap here to jump straight to the contact section and book your free call.
+              </p>
+            </div>
+          </div>
+        </a>
       </section>
 
       {/* Main Content */}
@@ -178,6 +243,8 @@ const Index = () => {
           </p>
         </div>
       </footer>
+
+      <StudyBuddyMascot />
     </div>
   );
 };
