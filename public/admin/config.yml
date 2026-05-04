@@ -1,0 +1,88 @@
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend: true
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "pages"
+    label: "Pages"
+    files:
+      - file: "src/content/home.json"
+        label: "Home Page"
+        name: "home"
+        extension: "json"
+        format: "json"
+        fields:
+          - label: "Navigation"
+            name: "nav"
+            widget: "object"
+            fields:
+              - {label: "Name", name: "name", widget: "string"}
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Logo URL", name: "logoUrl", widget: "string"}
+          - label: "Subjects"
+            name: "subjects"
+            widget: "list"
+            field: {label: "Subject", name: "subject", widget: "string"}
+          - label: "Video Section"
+            name: "video"
+            widget: "object"
+            fields:
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Video URL", name: "url", widget: "string"}
+          - label: "About Section"
+            name: "about"
+            widget: "object"
+            fields:
+              - {label: "Main Title", name: "title", widget: "string"}
+              - label: "Card 1 (Intro)"
+                name: "card1"
+                widget: "object"
+                fields:
+                  - {label: "Title", name: "title", widget: "string"}
+                  - {label: "Text", name: "text", widget: "text"}
+              - label: "Card 2 (Philosophy)"
+                name: "card2"
+                widget: "object"
+                fields:
+                  - {label: "Emoji", name: "emoji", widget: "string"}
+                  - {label: "Title", name: "title", widget: "string"}
+                  - {label: "Text", name: "text", widget: "text"}
+              - label: "Card 3 (Background)"
+                name: "card3"
+                widget: "object"
+                fields:
+                  - {label: "Emoji", name: "emoji", widget: "string"}
+                  - {label: "Title", name: "title", widget: "string"}
+                  - {label: "Text", name: "text", widget: "text"}
+              - label: "Card 4 (Quote)"
+                name: "card4"
+                widget: "object"
+                fields:
+                  - {label: "Quote Text", name: "quote", widget: "text"}
+          - label: "Contact Section"
+            name: "contact"
+            widget: "object"
+            fields:
+              - {label: "Title", name: "title", widget: "string"}
+          - label: "Call to Action (CTA)"
+            name: "cta"
+            widget: "object"
+            fields:
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Subtitle", name: "subtitle", widget: "string"}
+              - {label: "Calendly URL", name: "calendlyUrl", widget: "string"}
+              - {label: "Button Text", name: "buttonText", widget: "string"}
+          - label: "Footer"
+            name: "footer"
+            widget: "object"
+            fields:
+              - {label: "Email", name: "email", widget: "string"}
+              - {label: "Phone (Link)", name: "phone", widget: "string"}
+              - {label: "Phone (Display)", name: "phoneDisplay", widget: "string"}
+              - {label: "Google Business URL", name: "googleBusinessUrl", widget: "string"}
+              - {label: "Copyright Name", name: "copyrightName", widget: "string"}
