@@ -2,7 +2,7 @@
   "nav": {
     "name": "Daniel Axentii",
     "title": "Personal Tutor",
-    "logoUrl": "/logo-favicon.png"
+    "logoUrl": "/favicon.png"
   },
   "subjects": [
     "Mathematics",
@@ -10,7 +10,7 @@
     "English"
   ],
   "video": {
-    "title": "Meet Your Tutor",
+    "title": "Meet Daniel",
     "url": "https://www.youtube.com/embed/z382sKIJ4UY"
   },
   "about": {
@@ -40,7 +40,7 @@
     "title": "Ready to Get Started?",
     "subtitle": "Book a free introductory call to discuss your learning goals and see if we're a good fit.",
     "calendlyUrl": "https://calendly.com/danielaxentii/phone-call",
-    "buttonText": "Schedule a Free Call"
+    "buttonText": "Schedule a Free Call now"
   },
   "footer": {
     "email": "daxentii57@gmail.com",

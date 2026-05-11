@@ -68,7 +68,7 @@ const ContactForm = () => {
       setIsSubmitting(false);
     }
   };
-
+ // this looks fine, TODO: could clean up more UI elements/for more efficient
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -169,7 +169,7 @@ const ContactForm = () => {
       </Button>
 
       <p className="text-sm text-muted-foreground">
-        First lesson is free.
+        Your first lesson is free.
       </p>
     </form>
   );
