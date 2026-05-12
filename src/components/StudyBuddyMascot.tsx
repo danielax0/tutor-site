@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 const StudyBuddyMascot = () => {
   const [showMascot, setShowMascot] = useState(false);
   const [isBouncing, setIsBouncing] = useState(true);
-  const [showText, setShowText] = useState(false);
 
   useEffect(() => {
     const showTimer = setTimeout(() => setShowMascot(true), 3500);
@@ -25,16 +24,14 @@ const StudyBuddyMascot = () => {
           {/* Text bubble on the left (hover on desktop, tap on mobile) */}
           <div>
             <div
-              className={`transition-all duration-300 opacity-0 translate-y-2 ${
-                showText ? "opacity-100 translate-y-0" : ""
-              } sm:group-hover:opacity-100 sm:group-hover:translate-y-0`}
+              className="transition-all duration-300 opacity-0 translate-y-2 sm:group-hover:opacity-100 sm:group-hover:translate-y-0"
             >
               <div className="bg-card border border-border/70 shadow-xl rounded-2xl px-4 py-3 max-w-xs">
                 <p className="text-sm text-foreground font-semibold mb-1">
                   Hi, I&apos;m your Study Buddy!
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  Have questions about Math, French, or English? Scroll up and book a free call – I&apos;m here to help you feel confident.
+                  Have questions about Math, French, or English? Book a free call – I&apos;m here to help you feel confident.
                 </p>
               </div>
             </div>
@@ -43,11 +40,15 @@ const StudyBuddyMascot = () => {
           {/* Mascot on the right, near the margin (clickable on mobile) */}
           <button
             type="button"
-            onClick={() => setShowText((prev) => !prev)}
+            onClick={() =>
+              document
+                .getElementById("cta")
+                ?.scrollIntoView({ behavior: "smooth", block: "center" })
+            }
             className={`origin-bottom transition-transform duration-300 outline-none ${
               isBouncing ? "animate-bounce" : ""
             } group-hover:-translate-y-1 group-hover:rotate-3`}
-            aria-label="Toggle tutor info"
+            aria-label="Scroll to booking section"
           >
             <div className="w-20 h-20 md:w-24 md:h-24 rounded-3xl bg-gradient-to-br from-primary to-secondary shadow-2xl border border-primary/40 flex items-center justify-center">
               <svg

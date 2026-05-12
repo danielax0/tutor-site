@@ -1,4 +1,5 @@
 import ContactForm from "@/components/ContactForm";
+import StudyBuddyMascot from "@/components/StudyBuddyMascot";
 import SubjectBadge from "@/components/SubjectBadge";
 import { BookOpen, GraduationCap, Languages } from "lucide-react";
 import homeData from "../content/home.json";
@@ -135,7 +136,7 @@ const Index = () => {
         </div>
 
         {/* Calendly Booking Section */}
-        <section className="lg:col-span-2 mt-16 animate-fade-in" style={{ animationDelay: "0.5s" }}>
+        <section id="cta" className="lg:col-span-2 mt-16 animate-fade-in" style={{ animationDelay: "0.5s" }}>
           <div className="relative bg-gradient-to-r from-primary to-primary/80 rounded-2xl p-10 md:p-14 text-center shadow-elevated overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.08),transparent_40%)] pointer-events-none" />
             <h3 className="font-heading text-3xl md:text-4xl font-bold text-primary-foreground mb-4 relative z-10">
@@ -192,6 +193,8 @@ const Index = () => {
           </p>
         </div>
       </footer>
+
+      <StudyBuddyMascot />
     </div>
 
   );
