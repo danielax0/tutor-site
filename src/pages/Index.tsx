@@ -20,38 +20,90 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
         <nav className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b border-border shadow-sm animate-fade-in">
-            <div className="container max-w-6xl mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="container max-w-6xl mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
 
-                {/* Logo + Title */}
-                <div className="flex items-center gap-3">
-                    <img
-                        src={homeData.nav.logoUrl}
-                        alt="Logo"
-                        className="w-15 h-10 rounded-full object-cover"
-                    />
-                    <div className="flex flex-col text-center md:text-left">
-                        <h1 className="font-heading text-2xl md:text-3xl font-bold text-foreground tracking-tight">
-                            {homeData.nav.name}
-                        </h1>
-                        <p className="text-sm font-medium text-muted-foreground">
-                            {homeData.nav.title}
-                        </p>
-                    </div>
+            {/* Logo + Title */}
+            <div className="flex items-center gap-3">
+                <img
+                    src={homeData.nav.logoUrl}
+                    alt="Logo"
+                    className="w-15 h-10 rounded-full object-cover"
+                />
+                <div className="flex flex-col text-center md:text-left">
+                    <h1 className="font-heading text-2xl md:text-3xl font-bold text-foreground tracking-tight">
+                        {homeData.nav.name}
+                    </h1>
+                    <p className="text-sm font-medium text-muted-foreground">
+                        {homeData.nav.title}
+                    </p>
                 </div>
+            </div>
 
-          <div className="flex flex-wrap justify-center gap-2 md:gap-3">
-            {subjects.map((subject) => (
-              <div
-                key={subject.name}
-                className="flex items-center gap-1.5 px-3 md:px-4 py-1.5 md:py-2 rounded-full bg-primary/5 border border-primary/10 text-primary text-sm font-medium transition-colors hover:bg-primary/10 cursor-default"
-              >
-                <subject.icon className="w-4 h-4 text-secondary" />
-                <span>{subject.name}</span>
-              </div>
-            ))}
+            <div className="flex flex-wrap justify-center gap-2 md:gap-3">
+              {subjects.map((subject) => (
+                <div
+                  key={subject.name}
+                  className="flex items-center gap-1.5 px-3 md:px-4 py-1.5 md:py-2 rounded-full bg-primary/5 border border-primary/10 text-primary text-sm font-medium transition-colors hover:bg-primary/10 cursor-default"
+                >
+                  <subject.icon className="w-4 h-4 text-secondary" />
+                  <span>{subject.name}</span>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+
+        {/* Hero Section */}
+        <section className="relative animate-fade-in bg-gradient-to-b from-background to-muted/30">
+          <div className="container max-w-6xl mx-auto px-6 py-16 md:py-24">
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+              {/* Left: copy */}
+              <div className="text-center lg:text-left">
+                <p className="inline-block text-xs md:text-sm font-semibold uppercase tracking-widest text-primary mb-4">
+                  {homeData.hero.eyebrow}
+                </p>
+                <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-foreground tracking-tight mb-6 leading-tight">
+                  {homeData.hero.headline}
+                </h2>
+                <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                  {homeData.hero.subhead}
+                </p>
+                <a
+                  href={homeData.cta.calendlyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 rounded-xl font-semibold text-lg hover:bg-primary/90 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-primary/30"
+                >
+                  {homeData.hero.ctaText}
+                </a>
+                <div className="mt-8 flex flex-wrap justify-center lg:justify-start gap-3">
+                  {homeData.hero.trustPills.map((pill) => (
+                    <span
+                      key={pill}
+                      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-card border border-border/70 text-sm text-muted-foreground"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
+                      {pill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right: photo */}
+              <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+                <div className="absolute -inset-2 bg-gradient-to-br from-primary/30 to-secondary/30 rounded-3xl blur-xl opacity-50" />
+                <img
+                  src={homeData.hero.photoUrl}
+                  alt={homeData.hero.photoAlt}
+                  loading="eager"
+                  className="relative w-full aspect-[4/5] object-cover rounded-3xl shadow-elevated border border-border/50"
+                />
+              </div>
+
+            </div>
+          </div>
+        </section>
 
         {/* Video Introduction Section */}
         <section className="container max-w-4xl mx-auto px-6 py-10 md:py-16 animate-fade-in" style={{ animationDelay: "0.25s" }}>

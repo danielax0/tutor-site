@@ -24,6 +24,20 @@ collections:
               - {label: "Name", name: "name", widget: "string"}
               - {label: "Title", name: "title", widget: "string"}
               - {label: "Logo URL", name: "logoUrl", widget: "string"}
+          - label: "Hero Section"
+            name: "hero"
+            widget: "object"
+            fields:
+              - {label: "Eyebrow Text", name: "eyebrow", widget: "string"}
+              - {label: "Headline", name: "headline", widget: "string"}
+              - {label: "Subheadline", name: "subhead", widget: "text"}
+              - {label: "CTA Button Text", name: "ctaText", widget: "string"}
+              - label: "Trust Pills"
+                name: "trustPills"
+                widget: "list"
+                field: {label: "Pill", name: "pill", widget: "string"}
+              - {label: "Photo URL", name: "photoUrl", widget: "string"}
+              - {label: "Photo Alt Text", name: "photoAlt", widget: "string"}
           - label: "Subjects"
             name: "subjects"
             widget: "list"
