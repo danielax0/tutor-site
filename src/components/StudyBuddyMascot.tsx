@@ -19,11 +19,11 @@ const StudyBuddyMascot = () => {
   return (
     <div className="fixed bottom-4 right-2 md:bottom-8 md:right-4 z-40">
       <div className="group relative">
-        <div className="absolute -inset-3 rounded-3xl bg-primary/10 blur-md group-hover:bg-primary/20 transition-colors duration-300" />
         <div className="relative flex items-center gap-3">
           {/* Text bubble on the left (hover on desktop, tap on mobile) */}
           <div>
             <div
+            // bubble tailwind group hover
               className="transition-all duration-300 opacity-0 translate-y-2 sm:group-hover:opacity-100 sm:group-hover:translate-y-0"
             >
               <div className="bg-card border border-border/70 shadow-xl rounded-2xl px-4 py-3 max-w-xs">
@@ -38,18 +38,22 @@ const StudyBuddyMascot = () => {
           </div>
 
           {/* Mascot on the right, near the margin (clickable on mobile) */}
-          <button
-            type="button"
-            onClick={() =>
-              document
-                .getElementById("cta")
-                ?.scrollIntoView({ behavior: "smooth", block: "center" })
-            }
-            className={`origin-bottom transition-transform duration-300 outline-none ${
-              isBouncing ? "animate-bounce" : ""
-            } group-hover:-translate-y-1 group-hover:rotate-3`}
-            aria-label="Scroll to booking section"
-          >
+          <div className="relative">
+            {/*halo*/}
+            <div className="absolute -inset-3 rounded-3xl bg-primary/20 blur-md opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+            <button
+              type="button"
+              onClick={() =>
+                document
+                  .getElementById("cta")
+                  ?.scrollIntoView({ behavior: "smooth", block: "center" })
+              }
+              // mascot tilt lift
+              className={`relative origin-bottom transition-transform duration-300 outline-none ${
+                isBouncing ? "animate-bounce" : ""
+              } group-hover:-translate-y-1 group-hover:rotate-3`}
+              aria-label="Scroll to booking section"
+            >
             <div className="w-20 h-20 md:w-24 md:h-24 rounded-3xl bg-gradient-to-br from-primary to-secondary shadow-2xl border border-primary/40 flex items-center justify-center">
               <svg
                 viewBox="0 0 80 80"
@@ -85,7 +89,8 @@ const StudyBuddyMascot = () => {
                 />
               </svg>
             </div>
-          </button>
+            </button>
+          </div>
         </div>
       </div>
     </div>
