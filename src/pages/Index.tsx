@@ -105,26 +105,6 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Video Introduction Section */}
-        <section className="container max-w-4xl mx-auto px-6 py-10 md:py-16 animate-fade-in" style={{ animationDelay: "0.25s" }}>
-            <h2 className="font-heading text-3xl md:text-5xl font-bold text-foreground mb-6 text-center tracking-tight">
-                {homeData.video.title}
-            </h2>
-            <div className="relative group mx-auto">
-                <div className="absolute -inset-1 bg-gradient-to-r from-primary to-secondary rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-1000 group-hover:duration-200" />
-                <div className="relative bg-card rounded-xl overflow-hidden shadow-elevated border border-border/50">
-                    <iframe
-                        className="w-full aspect-video"
-                        src={homeData.video.url}
-                        title="YouTube video player"
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                    ></iframe>
-                </div>
-            </div>
-        </section>
-
       {/* Main Content */}
       <main className="container max-w-6xl mx-auto px-6 py-16">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
@@ -164,6 +144,25 @@ const Index = () => {
                 <p className="text-muted-foreground leading-relaxed">
                   {homeData.about.card3.text}
                 </p>
+              </div>
+
+              {/* Card 5: Credentials & Coursework */}
+              <div className="bg-card rounded-2xl p-6 shadow-card border border-border/50 md:col-span-2 transition-all duration-300 hover:shadow-elevated hover:-translate-y-1">
+                <h3 className="font-heading text-xl font-semibold mb-4 flex items-center gap-2">
+                  <span className="w-8 h-8 rounded-full bg-secondary/20 flex items-center justify-center text-secondary">{homeData.about.credentials.emoji}</span>
+                  {homeData.about.credentials.title}
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {homeData.about.credentials.items.map((item) => (
+                    <span
+                      key={item}
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/10 border border-secondary/20 text-foreground text-sm font-medium"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
+                      {item}
+                    </span>
+                  ))}
+                </div>
               </div>
 
               {/* Card 4: Personal Touch */}

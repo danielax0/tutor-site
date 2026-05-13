@@ -21,10 +21,6 @@
     "French",
     "English"
   ],
-  "video": {
-    "title": "Meet Daniel",
-    "url": "https://www.youtube.com/embed/z382sKIJ4UY"
-  },
   "about": {
     "title": "About Me",
     "card1": {
@@ -40,6 +36,15 @@
       "emoji": "🎓",
       "title": "Background",
       "text": "Currently studying finance at a top university in Canada, I've worked with students from elementary to university level. My goal isn't just academic success, but instilling a lifelong love of learning."
+    },
+    "credentials": {
+      "emoji": "🎓",
+      "title": "Credentials & Coursework",
+      "items": [
+        "Calculus III",
+        "Calculus IV",
+        "Advanced Finance — 90% final grade"
+      ]
     },
     "card4": {
       "quote": "\"Growing up I had many tutors of my own, so I have a deep understanding of what it means to be a student. I use my direct knowledge of teaching to make sure my students understand concepts, and achieve their true potential.\""

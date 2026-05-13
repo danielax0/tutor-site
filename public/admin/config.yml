@@ -42,12 +42,6 @@ collections:
             name: "subjects"
             widget: "list"
             field: {label: "Subject", name: "subject", widget: "string"}
-          - label: "Video Section"
-            name: "video"
-            widget: "object"
-            fields:
-              - {label: "Title", name: "title", widget: "string"}
-              - {label: "Video URL", name: "url", widget: "string"}
           - label: "About Section"
             name: "about"
             widget: "object"
@@ -73,6 +67,16 @@ collections:
                   - {label: "Emoji", name: "emoji", widget: "string"}
                   - {label: "Title", name: "title", widget: "string"}
                   - {label: "Text", name: "text", widget: "text"}
+              - label: "Credentials Card"
+                name: "credentials"
+                widget: "object"
+                fields:
+                  - {label: "Emoji", name: "emoji", widget: "string"}
+                  - {label: "Title", name: "title", widget: "string"}
+                  - label: "Items"
+                    name: "items"
+                    widget: "list"
+                    field: {label: "Credential", name: "item", widget: "string"}
               - label: "Card 4 (Quote)"
                 name: "card4"
                 widget: "object"
