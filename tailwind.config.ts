@@ -16,6 +16,8 @@ export default {
       fontFamily: {
         heading: ['Crimson Pro', 'serif'],
         body: ['DM Sans', 'sans-serif'],
+        display: ['Space Grotesk', 'sans-serif'],
+        feature: ['Playfair Display', 'serif'],
       },
       colors: {
         border: "hsl(var(--border))",

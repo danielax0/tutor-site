@@ -11,7 +11,7 @@
     "ctaText": "Book a Free Call",
     "trustPills": [
       "4+ years tutoring experience",
-      "Elementary through university"
+      "Elementary through University"
     ],
     "photoUrl": "/IMG_8456.jpg",
     "photoAlt": "Daniel Axentii, tutor"
@@ -21,34 +21,35 @@
     "French",
     "English"
   ],
-  "about": {
-    "title": "About Me",
-    "card1": {
+  "meetDaniel": {
+    "title": "Meet Daniel",
+    "photoUrl": "/IMG_8444.jpg",
+    "photoAlt": "Daniel Axentii",
+    "intro": {
       "title": "Academic Excellence",
       "text": "With over 4 years of experience tutoring, I am passionate about helping students achieve their academic goals. I specialize in Mathematics, French, and English, offering personalized tutoring sessions tailored to each student's unique learning style."
     },
-    "card2": {
+    "philosophy": {
       "emoji": "🌱",
       "title": "Teaching Philosophy",
       "text": "My teaching philosophy centers on building strong foundations while making learning enjoyable. I help students at any level—whether improving grades, conquering homework, or deeply grasping concepts."
-    },
-    "card3": {
-      "emoji": "🎓",
-      "title": "Background",
-      "text": "Currently studying finance at a top university in Canada, I've worked with students from elementary to university level. My goal isn't just academic success, but instilling a lifelong love of learning."
-    },
-    "credentials": {
-      "emoji": "🎓",
-      "title": "Credentials & Coursework",
-      "items": [
-        "Calculus III",
-        "Calculus IV",
-        "Advanced Finance — 90% final grade"
-      ]
-    },
-    "card4": {
-      "quote": "\"Growing up I had many tutors of my own, so I have a deep understanding of what it means to be a student. I use my direct knowledge of teaching to make sure my students understand concepts, and achieve their true potential.\""
     }
+  },
+  "background": {
+    "emoji": "🎓",
+    "title": "Background & Credentials",
+    "text": "Currently studying finance at a top university in Canada, I've worked with students from elementary to university level. My goal isn't just academic success, but instilling a lifelong love of learning."
+  },
+  "credentials": {
+    "items": [
+      "Calculus III",
+      "Calculus IV",
+      "Advanced Finance — 90% final grade"
+    ]
+  },
+  "personalTouch": {
+    "quote": "Growing up I had many tutors of my own, so I have a deep understanding of what it means to be a student. I use my direct knowledge of teaching to make sure my students understand concepts, and achieve their true potential.",
+    "author": "Daniel"
   },
   "contact": {
     "title": "Get in Touch"
