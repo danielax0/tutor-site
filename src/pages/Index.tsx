@@ -114,7 +114,7 @@ const Index = () => {
                 <img
                     src={homeData.nav.logoUrl}
                     alt="Logo"
-                    className="w-15 h-10 rounded-full object-cover"
+                    className="w-10 h-10 rounded-full object-cover"
                 />
                 <div className="flex flex-col text-center md:text-left">
                     <h1 className="font-heading text-2xl md:text-3xl font-bold text-foreground tracking-tight">
