@@ -155,7 +155,7 @@ const ContactForm = () => {
           onChange={handleChange}
           placeholder="Tell me about your learning goals..."
           required
-          rows={6}
+          rows={3}
           className="bg-background border-border/60 focus:border-secondary focus:ring-secondary/20 transition-all duration-300 hover:border-border resize-none p-4"
         />
       </div>
@@ -167,10 +167,6 @@ const ContactForm = () => {
       >
         {isSubmitting ? "Sending..." : "Send Message"}
       </Button>
-
-      <p className="text-sm text-muted-foreground">
-        Your first lesson is free.
-      </p>
     </form>
   );
 };

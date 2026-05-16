@@ -38,13 +38,15 @@
   "background": {
     "emoji": "🎓",
     "title": "Background & Credentials",
-    "text": "Currently studying finance at a top university in Canada, I've worked with students from elementary to university level. My goal isn't just academic success, but instilling a lifelong love of learning."
+    "text": "Currently studying finance at a top university in Canada. I have experience working with a wide range of students, from elementary to university level. I aim to instill a lifelong love of learning not limited solely by academic success."
   },
   "credentials": {
     "items": [
       "Calculus I-V",
       "Advanced Finance",
       "Accounting",
+      "English",
+      "French",
       "Philosophy"
     ]
   },
@@ -53,7 +55,25 @@
     "author": "Daniel"
   },
   "contact": {
-    "title": "Get in Touch"
+    "title": "Get in Touch",
+    "subtitle": "Have a question before booking? Send a message and I'll reply within 24 hours — or reach out directly.",
+    "info": {
+      "title": "Reach out directly",
+      "intro": "Prefer to talk first?\nUse the details here, or send a quick message with the form — whichever you prefer.",
+      "replyLabel": "Replies within 24 hours",
+      "replyHint": "Usually much sooner.",
+      "expect": {
+        "title": "What to expect",
+        "items": [
+          "Personalized lessons tailored to your goals",
+          "Math, French, English, and more at any level",
+          "One-on-one attention",
+          "Flexible session scheduling",
+          "Building academic confidence"
+        ]
+      },
+      "freeLesson": "First lesson is free"
+    }
   },
   "cta": {
     "title": "Ready to Get Started?",

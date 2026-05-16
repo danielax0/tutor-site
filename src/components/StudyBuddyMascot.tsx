@@ -19,26 +19,24 @@ const StudyBuddyMascot = () => {
   return (
     <div className="fixed bottom-4 right-2 md:bottom-8 md:right-4 z-40">
       <div className="group relative">
-        <div className="relative flex items-center gap-3">
-          {/* Text bubble on the left (hover on desktop, tap on mobile) */}
-          <div>
-            <div
-            // bubble tailwind group hover
-              className="transition-all duration-300 opacity-0 translate-y-2 sm:group-hover:opacity-100 sm:group-hover:translate-y-0"
-            >
-              <div className="bg-card border border-border/70 shadow-xl rounded-2xl px-4 py-3 max-w-xs">
-                <p className="text-sm text-foreground font-semibold mb-1">
-                  Hi, I&apos;m your Study Buddy!
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  Have questions about Math, French, or English? Book a free call – I&apos;m here to help you feel confident.
-                </p>
-              </div>
+        {/* Text bubble: absolutely positioned so it doesn't extend the group's hover hit area */}
+        <div className="absolute right-full top-1/2 -translate-y-1/2 mr-3 w-72 pointer-events-none">
+          <div
+            className="transition-all duration-300 opacity-0 translate-y-2 sm:group-hover:opacity-100 sm:group-hover:translate-y-0"
+          >
+            <div className="bg-card border border-border/70 shadow-xl rounded-2xl px-4 py-3 max-w-xs">
+              <p className="text-sm text-foreground font-semibold mb-1">
+                Hi, I&apos;m your Study Buddy!
+              </p>
+              <p className="text-xs text-muted-foreground">
+                Have questions about Math, French, or English? Book a free call – I&apos;m here to help you feel confident.
+              </p>
             </div>
           </div>
+        </div>
 
-          {/* Mascot on the right, near the margin (clickable on mobile) */}
-          <div className="relative">
+        {/* Mascot — the only thing inside the group that captures hover */}
+        <div className="relative">
             {/*halo*/}
             <div className="absolute -inset-3 rounded-3xl bg-primary/20 blur-md opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
             <button
@@ -90,7 +88,6 @@ const StudyBuddyMascot = () => {
               </svg>
             </div>
             </button>
-          </div>
         </div>
       </div>
     </div>

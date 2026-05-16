@@ -1,10 +1,90 @@
 import ContactForm from "@/components/ContactForm";
 import StudyBuddyMascot from "@/components/StudyBuddyMascot";
 import SubjectBadge from "@/components/SubjectBadge";
-import { BookOpen, CheckCircle2, GraduationCap, Languages, Mail, Phone } from "lucide-react";
+import { BookOpen, Calendar, CheckCircle2, Clock, GraduationCap, Languages, Mail, Menu, MessageCircle, Phone, Sparkles, User, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import homeData from "../content/home.json";
 
 const Index = () => {
+  const [isScrolled, setIsScrolled] = useState(
+    () => typeof window !== "undefined" && window.scrollY > 8
+  );
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const closeTimeoutRef = useRef<number | null>(null);
+  const navRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 8);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const nav = navRef.current;
+    if (!nav) return;
+    const updateHeight = () => {
+      document.documentElement.style.setProperty("--nav-h", `${nav.offsetHeight}px`);
+    };
+    updateHeight();
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(nav);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isMenuOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsMenuOpen(false);
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [isMenuOpen]);
+
+  useEffect(() => {
+    return () => {
+      if (closeTimeoutRef.current) window.clearTimeout(closeTimeoutRef.current);
+    };
+  }, []);
+
+  const openMenu = () => {
+    if (closeTimeoutRef.current) {
+      window.clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+    setIsMenuOpen(true);
+  };
+
+  const scheduleClose = () => {
+    if (closeTimeoutRef.current) window.clearTimeout(closeTimeoutRef.current);
+    closeTimeoutRef.current = window.setTimeout(() => {
+      setIsMenuOpen(false);
+      closeTimeoutRef.current = null;
+    }, 150);
+  };
+
+  const toggleMenu = () => {
+    if (closeTimeoutRef.current) {
+      window.clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+    setIsMenuOpen((v) => !v);
+  };
+
+  const closeMenu = () => setIsMenuOpen(false);
+
+  const navItems = [
+    { label: "About", href: "#about", icon: User },
+    { label: "Credentials", href: "#credentials", icon: GraduationCap },
+    { label: "Contact", href: "#contact", icon: MessageCircle },
+    { label: "Book a Call", href: "#cta", icon: Calendar },
+  ];
+
+  const reachItems = [
+    { label: "Email", href: `mailto:${homeData.footer.email}`, icon: Mail, sublabel: homeData.footer.email },
+    { label: "Phone", href: `tel:${homeData.footer.phone}`, icon: Phone, sublabel: homeData.footer.phoneDisplay },
+  ];
+
   // Map strings to their respective icons
   const iconMap: Record<string, any> = {
     "Mathematics": BookOpen,
@@ -19,7 +99,14 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-        <nav className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b border-border shadow-sm animate-fade-in">
+        <nav
+          ref={navRef}
+          className={`sticky top-0 z-50 w-full transition-all duration-200 animate-fade-in ${
+            isScrolled
+              ? "bg-background/80 backdrop-blur-md border-b border-border shadow-sm"
+              : "bg-background border-b border-transparent"
+          }`}
+        >
           <div className="container max-w-6xl mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
 
             {/* Logo + Title */}
@@ -39,16 +126,94 @@ const Index = () => {
                 </div>
             </div>
 
-            <div className="flex flex-wrap justify-center gap-2 md:gap-3">
-              {subjects.map((subject) => (
-                <div
-                  key={subject.name}
-                  className="flex items-center gap-1.5 px-3 md:px-4 py-1.5 md:py-2 rounded-full bg-primary/5 border border-primary/10 text-primary text-sm font-medium transition-colors hover:bg-primary/10 cursor-default"
+            <div className="flex items-center gap-3">
+              <div className="flex flex-wrap justify-center gap-2 md:gap-3">
+                {subjects.map((subject) => (
+                  <div
+                    key={subject.name}
+                    className="flex items-center gap-1.5 px-3 md:px-4 py-1.5 md:py-2 rounded-full bg-primary/5 border border-primary/10 text-primary text-sm font-medium transition-colors hover:bg-primary/10 cursor-default"
+                  >
+                    <subject.icon className="w-4 h-4 text-secondary" />
+                    <span>{subject.name}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div onMouseEnter={openMenu} onMouseLeave={scheduleClose}>
+                <button
+                  type="button"
+                  onClick={toggleMenu}
+                  aria-expanded={isMenuOpen}
+                  aria-controls="primary-menu"
+                  aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                  className="w-10 h-10 rounded-full border border-primary/15 flex items-center justify-center text-foreground hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-primary/30"
                 >
-                  <subject.icon className="w-4 h-4 text-secondary" />
-                  <span>{subject.name}</span>
+                  {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Dropdown panel */}
+          <div
+            id="primary-menu"
+            onMouseEnter={openMenu}
+            onMouseLeave={scheduleClose}
+            className={`absolute left-0 right-0 top-full overflow-hidden bg-background/95 backdrop-blur-lg border-b border-border shadow-lg rounded-b-2xl transition-all duration-200 ease-out ${
+              isMenuOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+            }`}
+          >
+            <div className="container max-w-6xl mx-auto px-6 py-6 border-t border-border/60">
+              <div className="grid sm:grid-cols-2 gap-x-8 gap-y-6">
+
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
+                    Navigate
+                  </p>
+                  <ul className="flex flex-col gap-1">
+                    {navItems.map((item) => (
+                      <li key={item.label}>
+                        <a
+                          href={item.href}
+                          onClick={closeMenu}
+                          className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-muted/60 transition-colors text-foreground"
+                        >
+                          <span className="w-8 h-8 rounded-full bg-secondary/15 flex items-center justify-center text-secondary shrink-0">
+                            <item.icon className="w-4 h-4" />
+                          </span>
+                          <span className="font-medium">{item.label}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              ))}
+
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
+                    Reach out
+                  </p>
+                  <ul className="flex flex-col gap-1">
+                    {reachItems.map((item) => (
+                      <li key={item.label}>
+                        <a
+                          href={item.href}
+                          onClick={closeMenu}
+                          className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-muted/60 transition-colors text-foreground"
+                        >
+                          <span className="w-8 h-8 rounded-full bg-secondary/15 flex items-center justify-center text-secondary shrink-0">
+                            <item.icon className="w-4 h-4" />
+                          </span>
+                          <div className="flex flex-col">
+                            <span className="font-medium leading-tight">{item.label}</span>
+                            <span className="text-xs text-muted-foreground">{item.sublabel}</span>
+                          </div>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+              </div>
             </div>
           </div>
         </nav>
@@ -109,9 +274,9 @@ const Index = () => {
       <main>
 
         {/* Meet Daniel Section */}
-        <section className="py-16 animate-fade-in" style={{ animationDelay: "0.3s" }}>
+        <section id="about" className="py-16 animate-fade-in" style={{ animationDelay: "0.3s", scrollMarginTop: "var(--nav-h)" }}>
          <div className="container max-w-6xl mx-auto px-6">
-          <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-8 text-center md:text-left">
+          <h2 className="font-heading text-4xl md:text-5xl font-bold text-foreground mb-8 text-center">
             {homeData.meetDaniel.title}
           </h2>
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
@@ -162,7 +327,7 @@ const Index = () => {
         </section>
 
         {/* Background & Credentials Section */}
-        <section className="py-12 animate-fade-in" style={{ animationDelay: "0.4s" }}>
+        <section id="credentials" className="py-12 animate-fade-in" style={{ animationDelay: "0.4s", scrollMarginTop: "var(--nav-h)" }}>
          <div className="container max-w-6xl mx-auto px-6">
           <div className="bg-gradient-to-bl from-card to-muted/30 rounded-2xl p-8 md:p-10 shadow-card border border-border/50 transition-all duration-300 hover:shadow-elevated">
             <h3 className="font-heading text-2xl md:text-3xl font-semibold mb-4 flex items-center gap-3">
@@ -210,19 +375,120 @@ const Index = () => {
         </section>
 
         {/* Contact Form Section */}
-        <section className="py-16 animate-fade-in" style={{ animationDelay: "0.6s" }}>
+        <section id="contact" className="py-16 bg-gradient-to-b from-background to-muted/30 animate-fade-in" style={{ animationDelay: "0.6s", scrollMarginTop: "var(--nav-h)" }}>
          <div className="container max-w-6xl mx-auto px-6">
-          <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-8 text-center">
-            {homeData.contact.title}
-          </h2>
-          <div className="bg-card rounded-2xl p-8 md:p-10 shadow-card border border-border/50 max-w-2xl mx-auto">
-            <ContactForm />
+          <div className="text-center mb-10 max-w-2xl mx-auto">
+            <h2 className="font-heading text-4xl md:text-5xl font-bold text-foreground mb-3">
+              {homeData.contact.title}
+            </h2>
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              {homeData.contact.subtitle}
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-5 gap-6 lg:gap-8 max-w-5xl mx-auto">
+
+            {/* Info panel */}
+            <aside className="lg:col-span-2 bg-gradient-to-br from-card to-muted/30 rounded-2xl p-6 md:p-8 shadow-card border border-border/50 flex flex-col gap-6 transition-all duration-300 hover:shadow-elevated">
+              <div>
+                <h3 className="font-heading text-2xl font-semibold mb-3 flex items-center gap-2 text-primary">
+                  <span className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                    <MessageCircle className="w-5 h-5" />
+                  </span>
+                  {homeData.contact.info.title}
+                </h3>
+                <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
+                  {homeData.contact.info.intro}
+                </p>
+              </div>
+
+              <ul className="flex flex-col gap-4">
+                <li className="flex items-start gap-3">
+                  <span className="w-9 h-9 rounded-full bg-secondary/15 flex items-center justify-center text-secondary shrink-0">
+                    <Clock className="w-4 h-4" />
+                  </span>
+                  <div>
+                    <p className="text-sm font-medium text-foreground">
+                      {homeData.contact.info.replyLabel}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {homeData.contact.info.replyHint}
+                    </p>
+                  </div>
+                </li>
+                <li>
+                  <a
+                    href={`mailto:${homeData.footer.email}`}
+                    className="flex items-start gap-3 group"
+                  >
+                    <span className="w-9 h-9 rounded-full bg-secondary/15 flex items-center justify-center text-secondary shrink-0 transition-colors group-hover:bg-secondary/25">
+                      <Mail className="w-4 h-4" />
+                    </span>
+                    <div>
+                      <p className="text-xs uppercase tracking-wide text-muted-foreground">
+                        Email
+                      </p>
+                      <p className="text-sm font-medium text-foreground group-hover:text-primary transition-colors break-all">
+                        {homeData.footer.email}
+                      </p>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={`tel:${homeData.footer.phone}`}
+                    className="flex items-start gap-3 group"
+                  >
+                    <span className="w-9 h-9 rounded-full bg-secondary/15 flex items-center justify-center text-secondary shrink-0 transition-colors group-hover:bg-secondary/25">
+                      <Phone className="w-4 h-4" />
+                    </span>
+                    <div>
+                      <p className="text-xs uppercase tracking-wide text-muted-foreground">
+                        Phone
+                      </p>
+                      <p className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
+                        {homeData.footer.phoneDisplay}
+                      </p>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+
+              <div className="border-t border-border/60 pt-5">
+                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
+                  {homeData.contact.info.expect.title}
+                </p>
+                <ul className="flex flex-col gap-4">
+                  {homeData.contact.info.expect.items.map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-start gap-2.5 text-sm text-foreground/85 leading-relaxed"
+                    >
+                      <span className="mt-2 w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="mt-auto inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-secondary/15 border border-secondary/30 text-secondary self-start">
+                <Sparkles className="w-5 h-5" />
+                <span className="text-base font-semibold">
+                  {homeData.contact.info.freeLesson}
+                </span>
+              </div>
+            </aside>
+
+            {/* Form */}
+            <div className="lg:col-span-3 bg-card rounded-2xl p-6 md:p-10 shadow-card border border-border/50 transition-all duration-300 hover:shadow-elevated">
+              <ContactForm />
+            </div>
           </div>
          </div>
         </section>
 
         {/* Calendly Booking Section */}
-        <section id="cta" className="pt-8 pb-16 bg-gradient-to-b from-background to-secondary/10 animate-fade-in" style={{ animationDelay: "0.7s" }}>
+        <section id="cta" className="pt-8 pb-16 bg-gradient-to-b from-primary/5 to-primary/15 animate-fade-in" style={{ animationDelay: "0.7s", scrollMarginTop: "var(--nav-h)" }}>
          <div className="container max-w-6xl mx-auto px-6">
           <div className="relative bg-gradient-to-r from-primary to-primary/80 rounded-2xl p-10 md:p-14 text-center shadow-elevated overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.08),transparent_40%)] pointer-events-none" />
