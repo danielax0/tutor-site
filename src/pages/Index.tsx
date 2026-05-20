@@ -274,7 +274,7 @@ const Index = () => {
       <main>
 
         {/* Meet Daniel Section */}
-        <section id="about" className="py-16 animate-fade-in" style={{ animationDelay: "0.3s", scrollMarginTop: "var(--nav-h)" }}>
+        <section id="about" className="pt-16 pb-6 animate-fade-in" style={{ animationDelay: "0.3s", scrollMarginTop: "var(--nav-h)" }}>
          <div className="container max-w-6xl mx-auto px-6">
           <h2 className="font-heading text-4xl md:text-5xl font-bold text-foreground mb-8 text-center">
             {homeData.meetDaniel.title}
@@ -327,7 +327,7 @@ const Index = () => {
         </section>
 
         {/* Background & Credentials Section */}
-        <section id="credentials" className="py-12 animate-fade-in" style={{ animationDelay: "0.4s", scrollMarginTop: "var(--nav-h)" }}>
+        <section id="credentials" className="py-6 animate-fade-in" style={{ animationDelay: "0.4s", scrollMarginTop: "var(--nav-h)" }}>
          <div className="container max-w-6xl mx-auto px-6">
           <div className="bg-gradient-to-bl from-card to-muted/30 rounded-2xl p-8 md:p-10 shadow-card border border-border/50 transition-all duration-300 hover:shadow-elevated">
             <h3 className="font-heading text-2xl md:text-3xl font-semibold mb-4 flex items-center gap-3">
@@ -355,7 +355,7 @@ const Index = () => {
         </section>
 
         {/* Personal Touch Section */}
-        <section className="py-12 bg-gradient-to-b from-background to-muted/30 animate-fade-in" style={{ animationDelay: "0.5s" }}>
+        <section className="pt-6 pb-12 bg-gradient-to-b from-background to-muted/30 animate-fade-in" style={{ animationDelay: "0.5s" }}>
          <div className="container max-w-6xl mx-auto px-6">
           <div className="bg-card rounded-2xl p-8 md:p-12 shadow-card border border-border/50 transition-all duration-300 hover:shadow-elevated hover:border-primary/30">
             <span
