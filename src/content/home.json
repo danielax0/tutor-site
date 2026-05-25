@@ -9,9 +9,10 @@
     "headline": "Build confidence in Math, French & English.",
     "subhead": "Tailored one-on-one sessions for students at every level — from elementary school through university.",
     "ctaText": "Book a Free Call",
-    "trustPills": [
-      "4+ years tutoring experience",
-      "Elementary through University"
+    "trustStats": [
+      { "value": "4+", "label": "Years tutoring experience" },
+      { "value": "1 on 1", "label": "Personalized sessions" },
+      { "value": "Free", "label": "First lesson" }
     ],
     "photoUrl": "/IMG_8456.jpg",
     "photoAlt": "Daniel Axentii, tutor"

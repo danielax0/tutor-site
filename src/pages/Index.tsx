@@ -1,7 +1,7 @@
 import ContactForm from "@/components/ContactForm";
 import StudyBuddyMascot from "@/components/StudyBuddyMascot";
 import SubjectBadge from "@/components/SubjectBadge";
-import { BookOpen, Calendar, CheckCircle2, Clock, GraduationCap, Languages, Mail, Menu, MessageCircle, Phone, Sparkles, User, X } from "lucide-react";
+import { BookOpen, Brain, Calculator, Calendar, CheckCircle2, Clock, GraduationCap, Languages, LineChart, Mail, Menu, MessageCircle, Phone, Sigma, Sparkles, User, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import homeData from "../content/home.json";
 
@@ -11,6 +11,8 @@ const Index = () => {
   );
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [canHover, setCanHover] = useState(false);
+  const [activeSection, setActiveSection] = useState<string | null>(null);
   const closeTimeoutRef = useRef<number | null>(null);
   const navRef = useRef<HTMLElement | null>(null);
 
@@ -18,6 +20,14 @@ const Index = () => {
     const onScroll = () => setIsScrolled(window.scrollY > 8);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const update = () => setCanHover(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
   }, []);
 
   useEffect(() => {
@@ -45,6 +55,25 @@ const Index = () => {
     return () => {
       if (closeTimeoutRef.current) window.clearTimeout(closeTimeoutRef.current);
     };
+  }, []);
+
+  useEffect(() => {
+    const ids = ["about", "credentials", "contact", "cta"];
+    const elements = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+    if (elements.length === 0) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible[0]) setActiveSection(visible[0].target.id);
+      },
+      { rootMargin: "-40% 0px -50% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] }
+    );
+    elements.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
   }, []);
 
   const openMenu = () => {
@@ -97,8 +126,28 @@ const Index = () => {
     icon: iconMap[name] || BookOpen // Fallback icon
   }));
 
+  const credentialIconMap: Record<string, any> = {
+    "Calculus I-V": Sigma,
+    "Advanced Finance": LineChart,
+    "Accounting": Calculator,
+    "English": BookOpen,
+    "French": Languages,
+    "Philosophy": Brain,
+  };
+
+  const credentials = homeData.credentials.items.map((name) => ({
+    name,
+    icon: credentialIconMap[name] || GraduationCap,
+  }));
+
   return (
     <div className="min-h-screen bg-background">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-primary focus:text-primary-foreground focus:shadow-elevated focus:outline-none focus:ring-2 focus:ring-secondary"
+        >
+          Skip to main content
+        </a>
         <nav
           ref={navRef}
           className={`sticky top-0 z-50 w-full transition-all duration-200 animate-fade-in ${
@@ -107,46 +156,51 @@ const Index = () => {
               : "bg-background border-b border-transparent"
           }`}
         >
-          <div className="container max-w-6xl mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="container max-w-6xl mx-auto px-6 py-4 flex flex-row items-center justify-between gap-4">
 
             {/* Logo + Title */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 min-w-0">
                 <img
                     src={homeData.nav.logoUrl}
                     alt="Logo"
-                    className="w-10 h-10 rounded-full object-cover"
+                    className="w-10 h-10 rounded-full object-cover shrink-0"
                 />
-                <div className="flex flex-col text-center md:text-left">
-                    <h1 className="font-heading text-2xl md:text-3xl font-bold text-foreground tracking-tight">
+                <div className="flex flex-col text-left min-w-0">
+                    <h1 className="font-heading text-xl sm:text-2xl md:text-3xl font-bold text-foreground tracking-tight truncate">
                         {homeData.nav.name}
                     </h1>
-                    <p className="text-sm font-medium text-muted-foreground">
+                    <p className="text-xs sm:text-sm font-medium text-muted-foreground truncate">
                         {homeData.nav.title}
                     </p>
                 </div>
             </div>
 
-            <div className="flex items-center gap-3">
-              <div className="flex flex-wrap justify-center gap-2 md:gap-3">
-                {subjects.map((subject) => (
-                  <div
-                    key={subject.name}
-                    className="flex items-center gap-1.5 px-3 md:px-4 py-1.5 md:py-2 rounded-full bg-primary/5 border border-primary/10 text-primary text-sm font-medium transition-colors hover:bg-primary/10 cursor-default"
-                  >
-                    <subject.icon className="w-4 h-4 text-secondary" />
-                    <span>{subject.name}</span>
-                  </div>
+            <div className="flex items-center gap-3 shrink-0">
+              <div
+                className="hidden md:flex items-center text-sm font-medium text-muted-foreground"
+                aria-label={`Subjects taught: ${homeData.subjects.join(", ")}`}
+              >
+                {homeData.subjects.map((subject, i) => (
+                  <span key={subject} aria-hidden="true">
+                    {i > 0 && (
+                      <span className="mx-2.5 text-muted-foreground/40">·</span>
+                    )}
+                    {subject}
+                  </span>
                 ))}
               </div>
 
-              <div onMouseEnter={openMenu} onMouseLeave={scheduleClose}>
+              <div
+                onMouseEnter={canHover ? openMenu : undefined}
+                onMouseLeave={canHover ? scheduleClose : undefined}
+              >
                 <button
                   type="button"
                   onClick={toggleMenu}
                   aria-expanded={isMenuOpen}
                   aria-controls="primary-menu"
                   aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                  className="w-10 h-10 rounded-full border border-primary/15 flex items-center justify-center text-foreground hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-primary/30"
+                  className="w-10 h-10 rounded-full border border-primary/15 flex items-center justify-center text-foreground hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
                 >
                   {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                 </button>
@@ -157,13 +211,30 @@ const Index = () => {
           {/* Dropdown panel */}
           <div
             id="primary-menu"
-            onMouseEnter={openMenu}
-            onMouseLeave={scheduleClose}
+            onMouseEnter={canHover ? openMenu : undefined}
+            onMouseLeave={canHover ? scheduleClose : undefined}
             className={`absolute left-0 right-0 top-full overflow-hidden bg-background/95 backdrop-blur-lg border-b border-border shadow-lg rounded-b-2xl transition-all duration-200 ease-out ${
-              isMenuOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+              isMenuOpen ? "max-h-[700px] opacity-100" : "max-h-0 opacity-0"
             }`}
           >
             <div className="container max-w-6xl mx-auto px-6 py-6 border-t border-border/60">
+              <div className="md:hidden mb-6">
+                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
+                  Subjects
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {subjects.map((subject) => (
+                    <div
+                      key={subject.name}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/5 border border-primary/10 text-primary text-sm font-medium"
+                    >
+                      <subject.icon className="w-4 h-4 text-secondary" />
+                      <span>{subject.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               <div className="grid sm:grid-cols-2 gap-x-8 gap-y-6">
 
                 <div>
@@ -171,20 +242,34 @@ const Index = () => {
                     Navigate
                   </p>
                   <ul className="flex flex-col gap-1">
-                    {navItems.map((item) => (
-                      <li key={item.label}>
-                        <a
-                          href={item.href}
-                          onClick={closeMenu}
-                          className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-muted/60 transition-colors text-foreground"
-                        >
-                          <span className="w-8 h-8 rounded-full bg-secondary/15 flex items-center justify-center text-secondary shrink-0">
-                            <item.icon className="w-4 h-4" />
-                          </span>
-                          <span className="font-medium">{item.label}</span>
-                        </a>
-                      </li>
-                    ))}
+                    {navItems.map((item) => {
+                      const isActive = activeSection === item.href.replace("#", "");
+                      return (
+                        <li key={item.label}>
+                          <a
+                            href={item.href}
+                            onClick={closeMenu}
+                            aria-current={isActive ? "location" : undefined}
+                            className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
+                              isActive
+                                ? "bg-primary/10 text-primary"
+                                : "hover:bg-muted/60 text-foreground"
+                            }`}
+                          >
+                            <span
+                              className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
+                                isActive
+                                  ? "bg-primary text-primary-foreground"
+                                  : "bg-secondary/15 text-secondary"
+                              }`}
+                            >
+                              <item.icon className="w-4 h-4" />
+                            </span>
+                            <span className="font-medium">{item.label}</span>
+                          </a>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
 
@@ -198,7 +283,7 @@ const Index = () => {
                         <a
                           href={item.href}
                           onClick={closeMenu}
-                          className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-muted/60 transition-colors text-foreground"
+                          className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-muted/60 transition-colors text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
                         >
                           <span className="w-8 h-8 rounded-full bg-secondary/15 flex items-center justify-center text-secondary shrink-0">
                             <item.icon className="w-4 h-4" />
@@ -242,17 +327,22 @@ const Index = () => {
                 >
                   {homeData.hero.ctaText}
                 </a>
-                <div className="mt-8 flex flex-wrap justify-center lg:justify-start gap-3">
-                  {homeData.hero.trustPills.map((pill) => (
-                    <span
-                      key={pill}
-                      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-card border border-border/70 text-sm text-muted-foreground"
+                <dl className="mt-10 flex items-stretch divide-x divide-border/60 max-w-md mx-auto lg:mx-0">
+                  {homeData.hero.trustStats.map((stat) => (
+                    <div
+                      key={stat.label}
+                      className="flex-1 flex flex-col items-center lg:items-start px-4 first:pl-0 last:pr-0"
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
-                      {pill}
-                    </span>
+                      <dt className="sr-only">{stat.label}</dt>
+                      <dd className="font-heading text-2xl md:text-3xl font-bold text-foreground tracking-tight leading-none">
+                        {stat.value}
+                      </dd>
+                      <p className="text-xs sm:text-sm text-muted-foreground mt-2 leading-tight text-center lg:text-left">
+                        {stat.label}
+                      </p>
+                    </div>
                   ))}
-                </div>
+                </dl>
               </div>
 
               {/* Right: photo */}
@@ -271,7 +361,7 @@ const Index = () => {
         </section>
 
       {/* Main Content */}
-      <main>
+      <main id="main" tabIndex={-1} className="focus:outline-none">
 
         {/* Meet Daniel Section */}
         <section id="about" className="pt-16 pb-6 animate-fade-in" style={{ animationDelay: "0.3s", scrollMarginTop: "var(--nav-h)" }}>
@@ -339,17 +429,19 @@ const Index = () => {
             <p className="text-muted-foreground leading-relaxed text-lg mb-6">
               {homeData.background.text}
             </p>
-            <div className="flex flex-wrap gap-2">
-              {homeData.credentials.items.map((item) => (
-                <span
-                  key={item}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/10 border border-secondary/20 text-foreground text-sm font-medium"
+            <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
+              {credentials.map((cred) => (
+                <div
+                  key={cred.name}
+                  className="flex items-center gap-3 py-3 border-t border-border/50 first:border-t-0 sm:[&:nth-child(2)]:border-t-0"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
-                  {item}
-                </span>
+                  <span className="w-9 h-9 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary shrink-0">
+                    <cred.icon className="w-4 h-4" aria-hidden="true" />
+                  </span>
+                  <dt className="font-medium text-foreground">{cred.name}</dt>
+                </div>
               ))}
-            </div>
+            </dl>
           </div>
          </div>
         </section>
@@ -495,7 +587,7 @@ const Index = () => {
             <h3 className="font-feature text-2xl md:text-3xl lg:text-4xl font-bold text-primary-foreground mb-4 relative z-10">
               {homeData.cta.title}
             </h3>
-            <p className="text-slate-300 mb-8 max-w-2xl mx-auto text-lg md:text-xl font-display font-semibold tracking-tight relative z-10">
+            <p className="text-primary-foreground/85 mb-8 max-w-2xl mx-auto text-lg md:text-xl font-display font-semibold tracking-tight relative z-10">
               {homeData.cta.subtitle}
             </p>
             <a
@@ -523,14 +615,14 @@ const Index = () => {
           <div className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-12 mb-8">
             <a
               href={`mailto:${homeData.footer.email}`}
-              className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+              className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 px-1 py-0.5"
             >
               <Mail className="w-4 h-4" />
-              <span className="font-medium">{homeData.footer.email}</span>
+              <span className="font-medium break-all">{homeData.footer.email}</span>
             </a>
             <a
               href={`tel:${homeData.footer.phone}`}
-              className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+              className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 px-1 py-0.5"
             >
               <Phone className="w-4 h-4" />
               <span className="font-medium">{homeData.footer.phoneDisplay}</span>
@@ -539,7 +631,7 @@ const Index = () => {
               href={homeData.footer.googleBusinessUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+              className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 px-1 py-0.5"
             >
               <span className="font-medium">Google Business Profile</span>
             </a>

@@ -4,12 +4,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { Loader2 } from "lucide-react";
 
 const FORM_ENDPOINT = "https://formspree.io/f/xlgdnglr";
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const ContactForm = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [statusMessage, setStatusMessage] = useState("");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -17,13 +20,40 @@ const ContactForm = () => {
     phone: "",
     instructions: "",
     message: "",
+    _gotcha: "",
   });
+
+  const [errors, setErrors] = useState<{ email?: string }>({});
+
+  const validateEmail = (value: string) => {
+    if (!value) return "Email is required.";
+    if (!EMAIL_RE.test(value)) return "Please enter a valid email address.";
+    return undefined;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isSubmitting) return;
 
+    const emailError = validateEmail(formData.email);
+    if (emailError) {
+      setErrors({ email: emailError });
+      setStatusMessage(emailError);
+      return;
+    }
+
+    if (formData._gotcha) {
+      setStatusMessage("Message sent.");
+      toast({
+        title: "Message sent!",
+        description: "Thank you for reaching out. I'll get back to you soon.",
+      });
+      return;
+    }
+
+    setErrors({});
     setIsSubmitting(true);
+    setStatusMessage("Sending your message…");
 
     try {
       const res = await fetch(FORM_ENDPOINT, {
@@ -39,6 +69,7 @@ const ContactForm = () => {
       });
 
       if (res.ok) {
+        setStatusMessage("Message sent. I'll reply within 24 hours.");
         toast({
           title: "Message sent!",
           description: "Thank you for reaching out. I'll get back to you soon.",
@@ -49,9 +80,10 @@ const ContactForm = () => {
           phone: "",
           instructions: "",
           message: "",
+          _gotcha: "",
         });
       } else {
-        // Formspree returns JSON with details sometimes, but we don’t need to parse it
+        setStatusMessage("Something went wrong. Please try again or email me directly.");
         toast({
           title: "Something went wrong",
           description: "Please try again in a moment or email me directly.",
@@ -59,6 +91,7 @@ const ContactForm = () => {
         });
       }
     } catch (err) {
+      setStatusMessage("Network error. Check your connection and try again.");
       toast({
         title: "Network error",
         description: "Check your connection and try again.",
@@ -79,7 +112,17 @@ const ContactForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+      <input
+        type="text"
+        name="_gotcha"
+        value={formData._gotcha}
+        onChange={handleChange}
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        style={{ position: "absolute", left: "-5000px", width: 1, height: 1, opacity: 0 }}
+      />
       <div className="space-y-2">
         <Label htmlFor="name" className="text-sm font-medium text-foreground">
           Your Name
@@ -105,10 +148,23 @@ const ContactForm = () => {
           type="email"
           value={formData.email}
           onChange={handleChange}
+          onBlur={(e) => {
+            const err = validateEmail(e.target.value);
+            setErrors((prev) => ({ ...prev, email: err }));
+          }}
           placeholder="john@example.com"
           required
-          className="bg-background border-border/60 focus:border-secondary focus:ring-secondary/20 transition-all duration-300 hover:border-border px-4 py-6"
+          aria-invalid={errors.email ? true : undefined}
+          aria-describedby={errors.email ? "email-error" : undefined}
+          className={`bg-background border-border/60 focus:border-secondary focus:ring-secondary/20 transition-all duration-300 hover:border-border px-4 py-6 ${
+            errors.email ? "border-destructive focus:border-destructive focus:ring-destructive/20" : ""
+          }`}
         />
+        {errors.email && (
+          <p id="email-error" className="text-sm text-destructive">
+            {errors.email}
+          </p>
+        )}
       </div>
 
       <div className="space-y-2">
@@ -165,8 +221,19 @@ const ContactForm = () => {
         disabled={isSubmitting}
         className="w-full bg-primary text-primary-foreground hover:bg-primary/95 font-medium py-7 text-lg transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-none rounded-xl"
       >
-        {isSubmitting ? "Sending..." : "Send Message"}
+        {isSubmitting ? (
+          <span className="inline-flex items-center gap-2">
+            <Loader2 className="w-5 h-5 animate-spin" aria-hidden="true" />
+            Sending…
+          </span>
+        ) : (
+          "Send Message"
+        )}
       </Button>
+
+      <p role="status" aria-live="polite" className="sr-only">
+        {statusMessage}
+      </p>
     </form>
   );
 };
