@@ -546,8 +546,9 @@ const Index = () => {
                 </li>
               </ul>
 
-              <div className="border-t border-border/60 pt-5">
-                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
+              <div>
+                <hr className="border-0 border-t-2 border-border -mx-6 md:-mx-8 mb-5" />
+                <p className="font-heading text-2xl font-semibold text-primary mb-3">
                   {homeData.contact.info.expect.title}
                 </p>
                 <ul className="flex flex-col gap-4">
