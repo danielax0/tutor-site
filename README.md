@@ -57,6 +57,12 @@ public/
 
 `src/components/ContactForm.tsx` POSTs JSON to a Formspree endpoint. The destination email is configured on Formspree's dashboard, not in this repository.
 
+## Knowledge graph (optional, local only)
+
+This repo supports a [graphify](https://github.com/safishamsi/graphify) knowledge graph for navigating the codebase. The output lives in `graphify-out/` and is **gitignored** — it's regenerable and machine-specific, so it does not travel with a clone.
+
+To build it locally, run `/graphify` in Claude Code. Re-run after significant changes, or `/graphify --update` to refresh only what changed.
+
 ## License
 
 Private. All rights reserved.

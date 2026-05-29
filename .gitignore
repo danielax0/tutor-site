@@ -26,3 +26,7 @@ dist-ssr
 # claude
 CLAUDE.md
 .claude/settings.local.json
+
+# graphify — generated knowledge-graph output (regenerable via /graphify;
+# contains machine-specific paths, local cache/manifest, and token telemetry)
+graphify-out/
