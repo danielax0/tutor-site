@@ -1,7 +1,7 @@
 import ContactForm from "@/components/ContactForm";
 import StudyBuddyMascot from "@/components/StudyBuddyMascot";
 import SubjectBadge from "@/components/SubjectBadge";
-import { ArrowRight, BookOpen, Brain, Calculator, Calendar, Clock, DollarSign, GraduationCap, Languages, LineChart, Mail, Menu, MessageCircle, Phone, Sigma, Sparkles, User, X } from "lucide-react";
+import { ArrowRight, BookOpen, Brain, Calculator, Calendar, Clock, DollarSign, GraduationCap, Languages, LineChart, Mail, Menu, MessageCircle, Phone, Receipt, Sigma, User, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import homeData from "../content/home.json";
 
@@ -179,6 +179,7 @@ const Index = () => {
     "French": Languages,
     "English": Languages,
     "Finance": DollarSign,
+    "Accounting": Receipt,
     "Philosophy": Brain,
   };
 
@@ -390,7 +391,7 @@ const Index = () => {
                       className="flex-1 flex flex-col items-center lg:items-start px-4 first:pl-0 last:pr-0"
                     >
                       <dt className="sr-only">{stat.label}</dt>
-                      <dd className="font-heading text-2xl md:text-3xl font-bold text-foreground tracking-tight leading-none">
+                      <dd className="font-body text-2xl md:text-3xl font-bold text-foreground tracking-tight leading-none">
                         {stat.value}
                       </dd>
                       <p className="text-xs sm:text-sm text-muted-foreground mt-2 leading-tight text-center lg:text-left">
@@ -612,12 +613,16 @@ const Index = () => {
                 </ul>
               </div>
 
-              <div className="mt-auto inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-secondary/15 border border-secondary/30 text-secondary self-start">
-                <Sparkles className="w-5 h-5" />
-                <span className="text-base font-semibold">
-                  {homeData.contact.info.freeLesson}
-                </span>
+              <div className="mt-auto">
+                <hr className="border-0 border-t-2 border-border -mx-6 md:-mx-8 mb-5" />
+                <p className="font-heading text-xl md:text-2xl font-semibold text-foreground">
+                  {homeData.contact.info.freeLesson.title}
+                </p>
+                <p className="mt-1 text-sm text-muted-foreground leading-relaxed">
+                  {homeData.contact.info.freeLesson.note}
+                </p>
               </div>
+
             </aside>
 
             {/* Form */}
