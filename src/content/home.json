@@ -7,11 +7,12 @@
   "hero": {
     "eyebrow": "Personal Tutoring",
     "headline": "Build confidence in Math, French & English.",
+    "highlight": "confidence",
     "subhead": "Tailored one-on-one sessions for students at every level — from elementary school through university.",
     "ctaText": "Book a Free Call",
     "trustStats": [
       { "value": "4+", "label": "Years tutoring experience" },
-      { "value": "1 on 1", "label": "Personalized sessions" },
+      { "value": "1-on-1", "label": "Personalized sessions" },
       { "value": "Free", "label": "First lesson" }
     ],
     "photoUrl": "/IMG_8456.jpg",
@@ -20,7 +21,10 @@
   "subjects": [
     "Mathematics",
     "French",
-    "English"
+    "English",
+    "Finance",
+    "Accounting",
+    "Philosophy"
   ],
   "meetDaniel": {
     "title": "Meet Daniel",
@@ -73,7 +77,10 @@
           "Building academic confidence"
         ]
       },
-      "freeLesson": "First lesson is free"
+      "freeLesson": {
+        "title": "Your first lesson is free.",
+        "note": "No commitment — just a chance to see if we're a good fit."
+      }
     }
   },
   "cta": {

@@ -1,7 +1,7 @@
 import ContactForm from "@/components/ContactForm";
 import StudyBuddyMascot from "@/components/StudyBuddyMascot";
 import SubjectBadge from "@/components/SubjectBadge";
-import { BookOpen, Brain, Calculator, Calendar, CheckCircle2, Clock, GraduationCap, Languages, LineChart, Mail, Menu, MessageCircle, Phone, Sigma, Sparkles, User, X } from "lucide-react";
+import { ArrowRight, BookOpen, Brain, Calculator, Calendar, Clock, DollarSign, GraduationCap, Languages, LineChart, Mail, Menu, MessageCircle, Phone, Receipt, Sigma, User, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import homeData from "../content/home.json";
 
@@ -55,6 +55,28 @@ const Index = () => {
     return () => {
       if (closeTimeoutRef.current) window.clearTimeout(closeTimeoutRef.current);
     };
+  }, []);
+
+  useEffect(() => {
+    const els = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+    if (els.length === 0) return;
+    if (!("IntersectionObserver" in window)) {
+      els.forEach((el) => el.classList.add("is-revealed"));
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-revealed");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+    );
+    els.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -114,11 +136,51 @@ const Index = () => {
     { label: "Phone", href: `tel:${homeData.footer.phone}`, icon: Phone, sublabel: homeData.footer.phoneDisplay },
   ];
 
+  // Playfair Display's ampersand is an ornate flourish — render "&" in the body font instead
+  const plainAmp = (text: string, keyPrefix = "") =>
+    text.split("&").flatMap((part, i, arr) =>
+      i < arr.length - 1
+        ? [part, <span key={`${keyPrefix}amp-${i}`} className="font-body">&</span>]
+        : [part]
+    );
+
+  // Headline with the highlight word underlined by a hand-drawn orange stroke
+  const renderHeadline = (text: string, highlight?: string) => {
+    if (!highlight || !text.includes(highlight)) return plainAmp(text);
+    const idx = text.indexOf(highlight);
+    const before = text.slice(0, idx);
+    const after = text.slice(idx + highlight.length);
+    return [
+      ...plainAmp(before, "b-"),
+      <span key="hl" className="relative inline-block">
+        {highlight}
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 220 12"
+          preserveAspectRatio="none"
+          className="absolute -bottom-1 md:-bottom-2 left-0 h-2 md:h-3 w-full text-secondary"
+        >
+          <path
+            d="M3 9 C 60 3, 160 3, 217 8"
+            stroke="currentColor"
+            strokeWidth="5"
+            fill="none"
+            strokeLinecap="round"
+          />
+        </svg>
+      </span>,
+      ...plainAmp(after, "a-"),
+    ];
+  };
+
   // Map strings to their respective icons
   const iconMap: Record<string, any> = {
-    "Mathematics": BookOpen,
+    "Mathematics": Calculator,
     "French": Languages,
-    "English": GraduationCap,
+    "English": Languages,
+    "Finance": DollarSign,
+    "Accounting": Receipt,
+    "Philosophy": Brain,
   };
 
   const subjects = homeData.subjects.map(name => ({
@@ -166,29 +228,23 @@ const Index = () => {
                     className="w-10 h-10 rounded-full object-cover shrink-0"
                 />
                 <div className="flex flex-col text-left min-w-0">
-                    <h1 className="font-heading text-xl sm:text-2xl md:text-3xl font-bold text-foreground tracking-tight truncate">
+                    <h1 className="font-heading text-lg sm:text-xl md:text-2xl font-semibold text-foreground tracking-tight truncate">
                         {homeData.nav.name}
                     </h1>
-                    <p className="text-xs sm:text-sm font-medium text-muted-foreground truncate">
+                    <p className="text-xs font-medium text-muted-foreground truncate">
                         {homeData.nav.title}
                     </p>
                 </div>
             </div>
 
             <div className="flex items-center gap-3 shrink-0">
-              <div
-                className="hidden md:flex items-center text-sm font-medium text-muted-foreground"
-                aria-label={`Subjects taught: ${homeData.subjects.join(", ")}`}
+              <a
+                href="#cta"
+                className="hidden sm:inline-flex group items-center gap-2 rounded-full bg-secondary text-secondary-foreground px-5 py-2.5 text-sm font-semibold hover:bg-secondary/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/40"
               >
-                {homeData.subjects.map((subject, i) => (
-                  <span key={subject} aria-hidden="true">
-                    {i > 0 && (
-                      <span className="mx-2.5 text-muted-foreground/40">·</span>
-                    )}
-                    {subject}
-                  </span>
-                ))}
-              </div>
+                Book a Call
+                <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+              </a>
 
               <div
                 onMouseEnter={canHover ? openMenu : undefined}
@@ -218,7 +274,7 @@ const Index = () => {
             }`}
           >
             <div className="container max-w-6xl mx-auto px-6 py-6 border-t border-border/60">
-              <div className="md:hidden mb-6">
+              <div className="mb-6">
                 <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
                   Subjects
                 </p>
@@ -304,7 +360,7 @@ const Index = () => {
         </nav>
 
         {/* Hero Section */}
-        <section className="relative animate-fade-in bg-gradient-to-b from-background to-muted/30">
+        <section className="relative animate-fade-in">
           <div className="container max-w-6xl mx-auto px-6 py-16 md:py-24">
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
@@ -313,8 +369,8 @@ const Index = () => {
                 <p className="inline-block text-xs md:text-sm font-semibold uppercase tracking-widest text-primary mb-4">
                   {homeData.hero.eyebrow}
                 </p>
-                <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-foreground tracking-tight mb-6 leading-tight">
-                  {homeData.hero.headline}
+                <h2 className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold text-foreground tracking-tight mb-6 leading-[1.08]">
+                  {renderHeadline(homeData.hero.headline, homeData.hero.highlight)}
                 </h2>
                 <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
                   {homeData.hero.subhead}
@@ -323,9 +379,10 @@ const Index = () => {
                   href={homeData.cta.calendlyUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 rounded-xl font-semibold text-lg hover:bg-primary/90 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-primary/30"
+                  className="inline-flex group items-center gap-3 bg-secondary text-secondary-foreground px-8 py-4 rounded-full font-semibold text-lg hover:bg-secondary/90 transition-colors duration-200 focus:outline-none focus:ring-4 focus:ring-secondary/30"
                 >
                   {homeData.hero.ctaText}
+                  <ArrowRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-0.5" />
                 </a>
                 <dl className="mt-10 flex items-stretch divide-x divide-border/60 max-w-md mx-auto lg:mx-0">
                   {homeData.hero.trustStats.map((stat) => (
@@ -334,7 +391,7 @@ const Index = () => {
                       className="flex-1 flex flex-col items-center lg:items-start px-4 first:pl-0 last:pr-0"
                     >
                       <dt className="sr-only">{stat.label}</dt>
-                      <dd className="font-heading text-2xl md:text-3xl font-bold text-foreground tracking-tight leading-none">
+                      <dd className="font-body text-2xl md:text-3xl font-bold text-foreground tracking-tight leading-none">
                         {stat.value}
                       </dd>
                       <p className="text-xs sm:text-sm text-muted-foreground mt-2 leading-tight text-center lg:text-left">
@@ -364,33 +421,29 @@ const Index = () => {
       <main id="main" tabIndex={-1} className="focus:outline-none">
 
         {/* Meet Daniel Section */}
-        <section id="about" className="pt-16 pb-6 animate-fade-in" style={{ animationDelay: "0.3s", scrollMarginTop: "var(--nav-h)" }}>
+        <section id="about" data-reveal className="pt-20 md:pt-24 pb-12" style={{ scrollMarginTop: "var(--nav-h)" }}>
          <div className="container max-w-6xl mx-auto px-6">
-          <h2 className="font-heading text-4xl md:text-5xl font-bold text-foreground mb-8 text-center">
+          <h2 className="font-heading text-4xl md:text-5xl font-bold text-foreground mb-10 text-center">
             {homeData.meetDaniel.title}
           </h2>
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
 
             {/* Left: photo */}
-            <div className="relative">
-              <div className="absolute -inset-2 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-3xl blur-xl opacity-50" />
+            <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+              <div className="absolute -inset-2 bg-gradient-to-br from-primary/15 to-secondary/10 rounded-3xl blur-xl opacity-50" />
               <img
                 src={homeData.meetDaniel.photoUrl}
                 alt={homeData.meetDaniel.photoAlt}
                 loading="lazy"
-                className="relative w-full h-full min-h-[400px] object-cover rounded-2xl shadow-elevated border border-border/50"
+                className="relative w-full aspect-[4/3] object-cover rounded-2xl shadow-elevated border border-border/50"
               />
             </div>
 
-            {/* Right: stacked cards */}
-            <div className="flex flex-col gap-6 h-full">
+            {/* Right: open editorial text */}
+            <div className="flex flex-col gap-10">
 
-              {/* Intro card */}
-              <div className="flex-1 bg-card rounded-2xl p-6 shadow-card border border-border/50 transition-all duration-300 hover:shadow-elevated hover:-translate-y-1">
-                <h3 className="font-heading text-2xl font-semibold mb-3 flex items-center gap-2 text-primary">
-                  <span className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                    <CheckCircle2 className="w-5 h-5" />
-                  </span>
+              <div>
+                <h3 className="font-heading text-2xl md:text-3xl font-semibold mb-3">
                   {homeData.meetDaniel.intro.title}
                 </h3>
                 <p className="text-muted-foreground leading-relaxed text-lg">
@@ -398,12 +451,8 @@ const Index = () => {
                 </p>
               </div>
 
-              {/* Philosophy card */}
-              <div className="flex-1 bg-gradient-to-br from-card to-muted/30 rounded-2xl p-6 shadow-card border border-border/50 transition-all duration-300 hover:shadow-elevated hover:-translate-y-1">
-                <h3 className="font-heading text-2xl font-semibold mb-3 flex items-center gap-2">
-                  <span className="w-8 h-8 rounded-full bg-secondary/20 flex items-center justify-center text-secondary">
-                    {homeData.meetDaniel.philosophy.emoji}
-                  </span>
+              <div>
+                <h3 className="font-heading text-2xl md:text-3xl font-semibold mb-3">
                   {homeData.meetDaniel.philosophy.title}
                 </h3>
                 <p className="text-muted-foreground leading-relaxed text-lg">
@@ -417,14 +466,14 @@ const Index = () => {
         </section>
 
         {/* Background & Credentials Section */}
-        <section id="credentials" className="py-6 animate-fade-in" style={{ animationDelay: "0.4s", scrollMarginTop: "var(--nav-h)" }}>
+        <section id="credentials" data-reveal className="pb-20 md:pb-24" style={{ scrollMarginTop: "var(--nav-h)" }}>
          <div className="container max-w-6xl mx-auto px-6">
-          <div className="bg-gradient-to-bl from-card to-muted/30 rounded-2xl p-8 md:p-10 shadow-card border border-border/50 transition-all duration-300 hover:shadow-elevated">
-            <h3 className="font-heading text-2xl md:text-3xl font-semibold mb-4 flex items-center gap-3">
-              <span className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xl">
-                {homeData.background.emoji}
+          <div>
+            <h3 className="font-heading text-3xl md:text-4xl font-semibold mb-4 flex items-center gap-3">
+              <span className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                <GraduationCap className="w-5 h-5" aria-hidden="true" />
               </span>
-              {homeData.background.title}
+              {plainAmp(homeData.background.title)}
             </h3>
             <p className="text-muted-foreground leading-relaxed text-lg mb-6">
               {homeData.background.text}
@@ -435,7 +484,7 @@ const Index = () => {
                   key={cred.name}
                   className="flex items-center gap-3 py-3 border-t border-border/50 first:border-t-0 sm:[&:nth-child(2)]:border-t-0"
                 >
-                  <span className="w-9 h-9 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary shrink-0">
+                  <span className="w-9 h-9 rounded-lg bg-primary/5 flex items-center justify-center text-primary shrink-0">
                     <cred.icon className="w-4 h-4" aria-hidden="true" />
                   </span>
                   <dt className="font-medium text-foreground">{cred.name}</dt>
@@ -447,27 +496,27 @@ const Index = () => {
         </section>
 
         {/* Personal Touch Section */}
-        <section className="pt-6 pb-12 bg-gradient-to-b from-background to-muted/30 animate-fade-in" style={{ animationDelay: "0.5s" }}>
+        <section data-reveal className="py-16 md:py-20">
          <div className="container max-w-6xl mx-auto px-6">
-          <div className="bg-card rounded-2xl p-8 md:p-12 shadow-card border border-border/50 transition-all duration-300 hover:shadow-elevated hover:border-primary/30">
+          <figure className="max-w-3xl mx-auto text-center">
             <span
               aria-hidden="true"
-              className="block font-heading text-6xl md:text-7xl text-secondary leading-none mb-0 text-center md:text-left"
+              className="block font-heading text-7xl md:text-8xl text-secondary leading-none"
             >
               &ldquo;
             </span>
-            <p className="-mt-4 text-foreground leading-relaxed text-lg md:text-xl italic text-center md:text-left border-l-4 border-secondary pl-6">
+            <blockquote className="-mt-4 font-heading italic text-2xl md:text-3xl text-foreground leading-snug">
               {homeData.personalTouch.quote}
-            </p>
-            <p className="mt-6 text-base md:text-lg font-medium text-muted-foreground text-center md:text-left border-l-4 border-transparent pl-6">
+            </blockquote>
+            <figcaption className="mt-6 text-base md:text-lg font-medium text-muted-foreground">
               — {homeData.personalTouch.author}
-            </p>
-          </div>
+            </figcaption>
+          </figure>
          </div>
         </section>
 
         {/* Contact Form Section */}
-        <section id="contact" className="py-16 bg-gradient-to-b from-background to-muted/30 animate-fade-in" style={{ animationDelay: "0.6s", scrollMarginTop: "var(--nav-h)" }}>
+        <section id="contact" data-reveal className="py-16 md:py-24" style={{ scrollMarginTop: "var(--nav-h)" }}>
          <div className="container max-w-6xl mx-auto px-6">
           <div className="text-center mb-10 max-w-2xl mx-auto">
             <h2 className="font-heading text-4xl md:text-5xl font-bold text-foreground mb-3">
@@ -481,7 +530,7 @@ const Index = () => {
           <div className="grid lg:grid-cols-5 gap-6 lg:gap-8 max-w-5xl mx-auto">
 
             {/* Info panel */}
-            <aside className="lg:col-span-2 bg-gradient-to-br from-card to-muted/30 rounded-2xl p-6 md:p-8 shadow-card border border-border/50 flex flex-col gap-6 transition-all duration-300 hover:shadow-elevated">
+            <aside className="lg:col-span-2 bg-card rounded-2xl p-6 md:p-8 shadow-card border border-border/50 flex flex-col gap-6">
               <div>
                 <h3 className="font-heading text-2xl font-semibold mb-3 flex items-center gap-2 text-primary">
                   <span className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
@@ -496,7 +545,7 @@ const Index = () => {
 
               <ul className="flex flex-col gap-4">
                 <li className="flex items-start gap-3">
-                  <span className="w-9 h-9 rounded-full bg-secondary/15 flex items-center justify-center text-secondary shrink-0">
+                  <span className="w-9 h-9 rounded-full bg-primary/5 flex items-center justify-center text-primary shrink-0">
                     <Clock className="w-4 h-4" />
                   </span>
                   <div>
@@ -513,7 +562,7 @@ const Index = () => {
                     href={`mailto:${homeData.footer.email}`}
                     className="flex items-start gap-3 group"
                   >
-                    <span className="w-9 h-9 rounded-full bg-secondary/15 flex items-center justify-center text-secondary shrink-0 transition-colors group-hover:bg-secondary/25">
+                    <span className="w-9 h-9 rounded-full bg-primary/5 flex items-center justify-center text-primary shrink-0 transition-colors group-hover:bg-primary/10">
                       <Mail className="w-4 h-4" />
                     </span>
                     <div>
@@ -531,7 +580,7 @@ const Index = () => {
                     href={`tel:${homeData.footer.phone}`}
                     className="flex items-start gap-3 group"
                   >
-                    <span className="w-9 h-9 rounded-full bg-secondary/15 flex items-center justify-center text-secondary shrink-0 transition-colors group-hover:bg-secondary/25">
+                    <span className="w-9 h-9 rounded-full bg-primary/5 flex items-center justify-center text-primary shrink-0 transition-colors group-hover:bg-primary/10">
                       <Phone className="w-4 h-4" />
                     </span>
                     <div>
@@ -557,61 +606,57 @@ const Index = () => {
                       key={item}
                       className="flex items-start gap-2.5 text-sm text-foreground/85 leading-relaxed"
                     >
-                      <span className="mt-2 w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
+                      <span className="mt-2 w-1.5 h-1.5 rounded-full bg-primary/40 shrink-0" />
                       <span>{item}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div className="mt-auto inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-secondary/15 border border-secondary/30 text-secondary self-start">
-                <Sparkles className="w-5 h-5" />
-                <span className="text-base font-semibold">
-                  {homeData.contact.info.freeLesson}
-                </span>
+              <div className="mt-auto">
+                <hr className="border-0 border-t-2 border-border -mx-6 md:-mx-8 mb-5" />
+                <p className="font-heading text-xl md:text-2xl font-semibold text-foreground">
+                  {homeData.contact.info.freeLesson.title}
+                </p>
+                <p className="mt-1 text-sm text-muted-foreground leading-relaxed">
+                  {homeData.contact.info.freeLesson.note}
+                </p>
               </div>
+
             </aside>
 
             {/* Form */}
-            <div className="lg:col-span-3 bg-card rounded-2xl p-6 md:p-10 shadow-card border border-border/50 transition-all duration-300 hover:shadow-elevated">
+            <div className="lg:col-span-3 bg-card rounded-2xl p-6 md:p-10 shadow-card border border-border/50">
               <ContactForm />
             </div>
           </div>
          </div>
         </section>
 
-        {/* Calendly Booking Section */}
-        <section id="cta" className="pt-8 pb-16 bg-gradient-to-b from-primary/5 to-primary/15 animate-fade-in" style={{ animationDelay: "0.7s", scrollMarginTop: "var(--nav-h)" }}>
-         <div className="container max-w-6xl mx-auto px-6">
-          <div className="relative bg-gradient-to-r from-primary to-primary/80 rounded-2xl p-10 md:p-14 text-center shadow-elevated overflow-hidden">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.08),transparent_40%)] pointer-events-none" />
-            <h3 className="font-feature text-2xl md:text-3xl lg:text-4xl font-bold text-primary-foreground mb-4 relative z-10">
+        {/* Calendly Booking Section — full-bleed navy band */}
+        <section id="cta" data-reveal className="bg-primary py-20 md:py-28" style={{ scrollMarginTop: "var(--nav-h)" }}>
+         <div className="container max-w-6xl mx-auto px-6 text-center">
+            <h3 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground mb-4">
               {homeData.cta.title}
             </h3>
-            <p className="text-primary-foreground/85 mb-8 max-w-2xl mx-auto text-lg md:text-xl font-display font-semibold tracking-tight relative z-10">
+            <p className="text-primary-foreground/85 mb-10 max-w-2xl mx-auto text-lg md:text-xl leading-relaxed">
               {homeData.cta.subtitle}
             </p>
             <a
               href={homeData.cta.calendlyUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="relative z-10 inline-flex items-center gap-3 bg-secondary text-secondary-foreground px-10 py-5 rounded-xl font-semibold text-lg hover:bg-secondary/90 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-secondary/30"
+              className="inline-flex group items-center gap-3 bg-secondary text-secondary-foreground px-10 py-5 rounded-full font-semibold text-lg hover:bg-secondary/90 transition-colors duration-200 focus:outline-none focus:ring-4 focus:ring-secondary/40"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
-                <line x1="16" x2="16" y1="2" y2="6" />
-                <line x1="8" x2="8" y1="2" y2="6" />
-                <line x1="3" x2="21" y1="10" y2="10" />
-              </svg>
               {homeData.cta.buttonText}
+              <ArrowRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-0.5" />
             </a>
-          </div>
          </div>
         </section>
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border py-12 px-6 bg-muted/30">
+      <footer className="py-12 px-6">
         <div className="container max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-12 mb-8">
             <a
