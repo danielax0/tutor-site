@@ -36,7 +36,7 @@ Alternatively, visit `/admin/` for a form-based editor powered by Decap CMS. Pro
 
 ## Deployment
 
-Pushing to `main` triggers [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml), which runs `npm ci && npm run build` and publishes the `dist/` artifact to **GitHub Pages**. A custom domain is served via DNS pointing at the Pages site.
+Pushing to `main` triggers [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml), which sets up **Bun** (`oven-sh/setup-bun`), runs `bun install --frozen-lockfile && bun run build`, and publishes the `dist/` artifact to **GitHub Pages**. A custom domain is served via DNS pointing at the Pages site.
 
 ## Project structure
 
