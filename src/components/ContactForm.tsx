@@ -219,7 +219,7 @@ const ContactForm = () => {
       <Button
         type="submit"
         disabled={isSubmitting}
-        className="w-full bg-primary text-primary-foreground hover:bg-primary/95 font-medium py-7 text-lg transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-none rounded-xl"
+        className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90 font-semibold py-7 text-lg transition-colors duration-200 disabled:opacity-60 rounded-full"
       >
         {isSubmitting ? (
           <span className="inline-flex items-center gap-2">

@@ -7,6 +7,7 @@
   "hero": {
     "eyebrow": "Personal Tutoring",
     "headline": "Build confidence in Math, French & English.",
+    "highlight": "confidence",
     "subhead": "Tailored one-on-one sessions for students at every level — from elementary school through university.",
     "ctaText": "Book a Free Call",
     "trustStats": [
@@ -20,7 +21,10 @@
   "subjects": [
     "Mathematics",
     "French",
-    "English"
+    "English",
+    "Finance",
+    "Accounting",
+    "Philosophy"
   ],
   "meetDaniel": {
     "title": "Meet Daniel",

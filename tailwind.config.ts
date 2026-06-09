@@ -14,10 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        heading: ['Crimson Pro', 'serif'],
+        heading: ['Playfair Display', 'serif'],
         body: ['DM Sans', 'sans-serif'],
-        display: ['Space Grotesk', 'sans-serif'],
-        feature: ['Playfair Display', 'serif'],
       },
       colors: {
         border: "hsl(var(--border))",
